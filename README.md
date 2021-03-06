@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paquiteau/projet-atsi/master)
+
 # Online Reconstruction of 2D MRI
 
 ATSI Master Project 
