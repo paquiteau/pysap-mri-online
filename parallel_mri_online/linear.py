@@ -24,14 +24,14 @@ import numpy
 
 
 class Identity(object):
-    """ The 2D wavelet transform class.
-    """
+    """The 2D wavelet transform class."""
+
     def op(self, data):
         self.coeffs_shape = data.shape
         return data
 
     def adj_op(self, coeffs):
-        """ Define the wavelet adjoint operator.
+        """Define the wavelet adjoint operator.
 
         This method returns the reconsructed image.
 
@@ -48,7 +48,7 @@ class Identity(object):
         return coeffs
 
     def l2norm(self, shape):
-        """ Compute the L2 norm.
+        """Compute the L2 norm.
 
         Parameters
         ----------
@@ -72,11 +72,12 @@ class Identity(object):
         # Compute the L2 norm
         return numpy.linalg.norm(data)
 
-class Pywavelet2(object):
 
-    def __init__(self, wavelet_name, nb_scale=4, verbose=0, undecimated=False,
-                 multichannel=False):
-        """ Initialize the 'pyWavelet3' class.
+class Pywavelet2(object):
+    def __init__(
+        self, wavelet_name, nb_scale=4, verbose=0, undecimated=False, multichannel=False
+    ):
+        """Initialize the 'pyWavelet3' class.
             print(x_new.shape)
         Parameters
         ----------
@@ -90,10 +91,9 @@ class Pywavelet2(object):
             enable use undecimated wavelet transform.
         """
         if wavelet_name not in pywt.wavelist():
-            raise ValueError(
-                "Unknown transformation '{0}'.".format(wavelet_name))
+            raise ValueError("Unknown transformation '{0}'.".format(wavelet_name))
         self.pywt_transform = pywt.Wavelet(wavelet_name)
-        self.single_level=False
+        self.single_level = False
         self.multichannel = multichannel
         self.nb_scale = nb_scale
         if nb_scale == 1 and not undecimated:
@@ -110,7 +110,7 @@ class Pywavelet2(object):
         self.coeffs_shape = None
 
     def get_coeff(self):
-        """ Return the wavelet coeffiscients
+        """Return the wavelet coeffiscients
         Return:
         -------
         The wavelet coeffiscients value
@@ -118,12 +118,11 @@ class Pywavelet2(object):
         return self.coeffs
 
     def set_coeff(self, coeffs):
-        """ Set the wavelet coefficients value
-        """
+        """Set the wavelet coefficients value"""
         self.coeffs = coeffs  # XXX: TODO: add some checks
 
     def op(self, data):
-        """ Define the wavelet operator.
+        """Define the wavelet operator.
          This method returns the input data convolved with the wavelet filter.
          Parameters
         ----------
@@ -149,17 +148,17 @@ class Pywavelet2(object):
             else:
                 if self.undecimated:
                     for channel in range(data.shape[0]):
-                        coeffs_dict = pywt.swt2(data[channel],
-                                                self.pywt_transform,
-                                                level=self.nb_scale)
+                        coeffs_dict = pywt.swt2(
+                            data[channel], self.pywt_transform, level=self.nb_scale
+                        )
                         coeffs, coeffs_shape = self.flatten(coeffs_dict)
                         self.coeffs.append(coeffs)
                         self.coeffs_shape.append(coeffs_shape)
                 else:
                     for channel in range(data.shape[0]):
-                        coeffs_dict = pywt.wavedec2(data[channel],
-                                                    self.pywt_transform,
-                                                    level=self.nb_scale)
+                        coeffs_dict = pywt.wavedec2(
+                            data[channel], self.pywt_transform, level=self.nb_scale
+                        )
                         coeffs, coeffs_shape = self.flatten(coeffs_dict)
                         self.coeffs.append(coeffs)
                         self.coeffs_shape.append(coeffs_shape)
@@ -169,18 +168,18 @@ class Pywavelet2(object):
                 coeffs_dict = pywt.dwt2(data, self.pywt_transform)
             else:
                 if self.undecimated:
-                    coeffs_dict = pywt.swt2(data,
-                                            self.pywt_transform,
-                                            level=self.nb_scale)
+                    coeffs_dict = pywt.swt2(
+                        data, self.pywt_transform, level=self.nb_scale
+                    )
                 else:
-                    coeffs_dict = pywt.wavedec2(data,
-                                                self.pywt_transform,
-                                                level=self.nb_scale)
+                    coeffs_dict = pywt.wavedec2(
+                        data, self.pywt_transform, level=self.nb_scale
+                    )
             self.coeffs, self.coeffs_shape = self.flatten(coeffs_dict)
         return self.coeffs
 
     def adj_op(self, coeffs, dtype="array"):
-        """ Define the wavelet adjoint operator.
+        """Define the wavelet adjoint operator.
          This method returns the reconsructed image.
          Parameters
         ----------
@@ -199,20 +198,27 @@ class Pywavelet2(object):
             data = []
             if self.single_level:
                 for channel in range(coeffs.shape[0]):
-                    coeffs_dict = self.unflatten(coeffs[channel], self.coeffs_shape[channel])
+                    coeffs_dict = self.unflatten(
+                        coeffs[channel], self.coeffs_shape[channel]
+                    )
                     data.append(pywt.idwt2(coeffs_dict, self.pywt_transform))
             else:
                 if self.undecimated:
                     for channel in range(coeffs.shape[0]):
-                        coeffs_dict = self.unflatten(coeffs[channel], self.coeffs_shape[channel])
-                        data.append(pywt.iswt2(coeffs_dict,
-                                          self.pywt_transform))
+                        coeffs_dict = self.unflatten(
+                            coeffs[channel], self.coeffs_shape[channel]
+                        )
+                        data.append(pywt.iswt2(coeffs_dict, self.pywt_transform))
                 else:
                     for channel in range(coeffs.shape[0]):
-                        coeffs_dict = self.unflatten(coeffs[channel], self.coeffs_shape[channel])
-                        data.append(pywt.waverec2(
-                            coeffs=coeffs_dict,
-                            wavelet=self.pywt_transform))
+                        coeffs_dict = self.unflatten(
+                            coeffs[channel], self.coeffs_shape[channel]
+                        )
+                        data.append(
+                            pywt.waverec2(
+                                coeffs=coeffs_dict, wavelet=self.pywt_transform
+                            )
+                        )
             return numpy.asarray(data)
         else:
             if self.single_level:
@@ -221,19 +227,18 @@ class Pywavelet2(object):
             else:
                 if self.undecimated:
                     coeffs_dict = self.unflatten(coeffs, self.coeffs_shape)
-                    data = pywt.iswt2(coeffs_dict,
-                                      self.pywt_transform)
+                    data = pywt.iswt2(coeffs_dict, self.pywt_transform)
                 else:
                     coeffs_dict = self.unflatten(coeffs, self.coeffs_shape)
                     data = pywt.waverec2(
-                        coeffs=coeffs_dict,
-                        wavelet=self.pywt_transform)
+                        coeffs=coeffs_dict, wavelet=self.pywt_transform
+                    )
             if dtype == "array":
                 return data
             return pysap.Image(data=data)
 
     def l2norm(self, shape):
-        """ Compute the L2 norm.
+        """Compute the L2 norm.
          Parameters
         ----------
         shape: uplet
