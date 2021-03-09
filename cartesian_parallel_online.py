@@ -12,7 +12,7 @@ from modopt.opt.proximity import GroupLASSO, IdentityProx
 from modopt.math.metrics import ssim, psnr, nrmse
 
 from mri.operators import FFT, WaveletN, OWL
-from utils import ColumnOnlineMask, OnlineCalibrationlessReconstructor
+from utils import KspaceGenerator, OnlineCalibrationlessReconstructor
 
 
 DATA_DIR = "data/"
@@ -82,7 +82,8 @@ if __name__ == "__main__":
         shape=K_DIM,
         n_coils=N_COILS,
     )
-    kspace_mask = fourier.op(full_k)
+
+    kspace_gen = KspaceGenerator(full_k, mask_loc)
 
     solver = OnlineCalibrationlessReconstructor(
         fourier,
@@ -92,4 +93,4 @@ if __name__ == "__main__":
         n_jobs=1,
         verbose=0,
     )
-    x_final, cost, metric = solver.reconstruct(kspace_mask)
+    x_final, cost, metric = solver.reconstruct(kspace_gen)
