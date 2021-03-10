@@ -66,8 +66,8 @@ class KspaceOnlineColumnGenerator:
         return self
 
     def __getitem__(self, idx):
-        self.mask[:, self.cols] = 1
-        self.kspace = self.kspace * self.mask[np.newaxis, ...]
+        self.mask[:, self.cols[:idx]] = 1
+        self.kspace = self.full_kspace * self.mask[np.newaxis, ...]
         return self.kspace, self.mask
 
     def __next__(self):
@@ -138,21 +138,23 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
         opt_kwargs = {
             "cost": self.cost_op,
             "grad": self.gradient_op,
-            "prox_dual": self.prox_op,
-            "linear": self.linear_op
+            "prox_dual":self.prox_op,
+            "linear": self.linear_op,
+            "auto_iterate":False
         }
         coeffs_temp = self.linear_op.op(np.zeros(kspace_generator.shape))
         if optimization_alg == "condatvu":
             #python 3.9+
             opt_kwargs |= dict(
                                prox=IdentityProx(),
-                               rho=1,
-                               sigma=0.5,
-                               eps=5e-8,
-                               tau=1.0 / (self.gradient_op.spec_rad / 2 + 0.5 + 5e-8),
-                               rho_update=None,
-                               sigma_update=None,
-                               tau_update=None)
+                    #           rho=1,
+                             #  sigma=0.5,
+                             #  eps=5e-8,
+                             #  tau=1.0 / (self.gradient_op.spec_rad / 2 + 0.5 + 5e-8),
+                             #   rho_update=None,
+                             #   sigma_update=None,
+                             #   tau_update=None
+                  )
 
             opt = Condat(x=x_init,
                          y=np.zeros_like(self.linear_op.op(x_init)),
@@ -165,13 +167,12 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
         else:
             raise Exception(f"{optimization_alg}: Not Implemented yet")
 
-
-        cost_func.batch
         for obs_kspace, mask in kspace_generator:
             opt._grad.obs_data = obs_kspace
             opt._grad.fourier_op.kspace_mask = mask
+            print(np.sum(mask))
             opt._update()
-        cost_finals= opt._cost_func._cost_list
+        cost_finals = opt._cost_func._cost_list
         x_final = opt._x_new
         y_final = opt._y_new
-        return x_final, y_final, cost_finals
+        return x_final, cost_finals, y_final
