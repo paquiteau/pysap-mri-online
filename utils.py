@@ -1,40 +1,24 @@
 """
 Some useful abstraction for the online reconstruction framework
 """
+import numpy as np
+
+import warnings
+
+# Package import
+from mri.operators.linear.wavelet import WaveletUD2, WaveletN
+from mri.optimizers import pogm, condatvu, fista
+from mri.optimizers.utils.cost import GenericCost
+
+# Third party import
+from modopt.opt.linear import Identity
+from modopt.opt.algorithms import Condat, POGM, FISTA
+
+
 from mri.reconstructors.calibrationless import CalibrationlessReconstructor
 
 
-class OnlineMaskBase():
-    """ A Base generator that yield a portion of a mask"""
-
-    def __init__(self, mask, n_steps):
-        self.mask = mask
-        self.n_steps = n_steps
-        self.n = 0
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.n > self.n_steps:
-            raise StopIteration
-        else:
-            next_mask = self.get_next_mask()
-            self.n += 1
-            return next_mask
-
-    def __getitem__(self, idx):
-        return self.get_mask_by_idx(idx)
-
-    def get_next_mask(self):
-        """ Implement a update of the mask
-        by default return the initial mask"""
-        return self.mask
-
-    def get_mask_by_idx(self, idx):
-        return self.mask
-
-
-class ColumnOnlineMask(OnlineMaskBase):
+class KspaceOnlineColumnGenerator:
     """ A Mask generator, adding new sampling column at each iteration
     Parameters
     ----------
@@ -44,35 +28,56 @@ class ColumnOnlineMask(OnlineMaskBase):
     from_center: if True, the column are added into the mask starting
     from the center and alternating left/right.
     """
-    def __init__(self, mask_cols, kspace_dim, n_steps=-1, from_center=True):
-        mask = np.zeros(kspace_dim,dtype='int')
-        mask[:, mask_cols] = 1
-        n_steps = n_steps if n_steps >= 0 else len(mask_cols)
-        super().__init__(mask, n_steps)
+
+    def __init__(self, full_kspace, mask_cols, max_iteration=-1, from_center=True):
+        self.full_kspace = full_kspace
+        kspace_dim = full_kspace.shape[1:]
+        self.full_mask = np.zeros(kspace_dim, dtype='int')
+        self.full_mask[:, mask_cols] = 1
+        self.mask = np.zeros(kspace_dim, dtype='int')
+        self.kspace = np.zeros_like(full_kspace)
+        self.max_iteration = max_iteration if max_iteration >= 0 else len(mask_cols)
+        self.iteration = -1
+        # reorder the column sampling by starting in the center
+        # and alternating left/right expansion
         if from_center:
-            center_pos = np.argmin(mask_cols-kspace_dim[1]//2)
-            new_idx = np.nan(mask_cols.shape)
-            new_idx[-1:0:-2] = mask_cols[:center_pos]
-            new_idx[::2] = mask_cols[center_pos:]
-            self.cols = mask_cols[new_idx]
+            center_pos = np.argmin(np.abs(mask_cols - kspace_dim[1] // 2))
+            new_idx = np.zeros(mask_cols.shape)
+            mask_cols = list(mask_cols)
+            left = mask_cols[center_pos::-1]
+            right = mask_cols[center_pos+1:]
+            new_cols=[]
+            while left or right:
+                if left:
+                    new_cols.append(left.pop(0))
+                if right:
+                    new_cols.append(right.pop(0))
+            self.cols = np.array(new_cols)
         else:
             self.cols = mask_cols
 
-    def get_next_mask(self):
-        return self.get_mask_by_idx(self.n)
+    @property
+    def shape(self):
+        return self.kspace.shape
 
-    def get_mask_by_idx(self,idx):
-        return self.mask[:,self.cols[:idx]]
+    @property
+    def dtype(self):
+        return self.kspace.dtype
 
-class KspaceGenerator():
-    def __init__(self,full_kspace, mask_loc):
-        self.mask_gen = ColumnOnlineMask(mask_loc,full_kspace.shape[1:])
     def __iter__(self):
         return self
+
+    def __getitem__(self, idx):
+        self.mask[:, self.cols] = 1
+        self.kspace = self.kspace * self.mask[np.newaxis, ...]
+        return self.kspace, self.mask
+
     def __next__(self):
-        next_mask = self.mask_gen()
-        next_kspace = full_kspace*next_mask[np.new_axis, ...]
-        return next_kspace
+        if self.iteration < self.max_iteration:
+            self.iteration += 1
+            return self.__getitem__(self.iteration)
+        else:
+            raise StopIteration
 
 
 class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):

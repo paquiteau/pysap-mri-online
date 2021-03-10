@@ -12,7 +12,7 @@ from modopt.opt.proximity import GroupLASSO, IdentityProx
 from modopt.math.metrics import ssim, psnr, nrmse
 
 from mri.operators import FFT, WaveletN, OWL
-from utils import KspaceGenerator, OnlineCalibrationlessReconstructor
+from utils import KspaceOnlineColumnGenerator, OnlineCalibrationlessReconstructor
 
 
 DATA_DIR = "data/"
@@ -34,37 +34,6 @@ def load_data(data_idx):
 
     return kspace, real_img, mask_loc, mask
 
-class IterativeColumnMask():
-    """ A generator that yield partial mask"""
-    def __init__(self, final_mask, steps=0, from_center = True):
-        self.mask = np.zeros_like(final_mask)
-        cols = np.argwhere(final_mask[0,:] == 1);
-        if from_center:
-            center_pos =  np.argmin(cols - self.mask.shape[1]//2)
-            left = cols[:center_pos]
-            right = cols[center_pos:]
-            new_idx = np.nan_like(cols)
-            new_idx[-1:0:-2]= cols[:center_pos]
-            new_idx[::2] = cols[center_pos:]
-            self.cols = cols[new_idx]
-        else:
-            self.cols = cols
-        self.final_mask = final_mask
-        self.steps = steps if steps else len(cols)
-        self.n = 0
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.n > self.steps:
-            raise StopIteration
-        else:
-            return self.final_mask[:self.cols[:self.n]]
-
-    def __getitem__(self,idx):
-        return self.final_mask[:self.cols[:idx]]
-
 
 
 if __name__ == "__main__":
@@ -83,7 +52,7 @@ if __name__ == "__main__":
         n_coils=N_COILS,
     )
 
-    kspace_gen = KspaceGenerator(full_k, mask_loc)
+    kspace_gen = KspaceOnlineColumnGenerator(full_k, mask_loc)
 
     solver = OnlineCalibrationlessReconstructor(
         fourier,
