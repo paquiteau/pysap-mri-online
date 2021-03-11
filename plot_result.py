@@ -3,7 +3,6 @@ import pandas as pd
 import collections
 import matplotlib.pyplot as plt
 
-# plt.close()
 def implot(array, title=None, colorbar=None):
     if np.iscomplexobj(array):
         array = np.log(np.abs(array))
@@ -20,22 +19,6 @@ def implot(array, title=None, colorbar=None):
     plt.show()
 
 
-def iter_plot(measures, x=None, ylabel=""):
-    if x is None:
-        xlabel = "iteration"
-    else:
-        xlabel = "time"
-    fig = plt.figure()
-    for y_name, y in measures:
-        x = np.arange(len(y))
-        plt.plot(x, y, label=y_name)
-    plt.legend()
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.show()
-    return fig
-
-
 def data2pd(data):
     metric_data = collections.defaultdict(dict)
     for alg in data.keys():
@@ -49,20 +32,35 @@ def data2pd(data):
     return metric_data
 
 
-if __name__ == "__main__":
-    data = np.load("data/results-online2.npy", allow_pickle=True).tolist()
-    data_offline = np.load("data/results-offline-mask2.npy", allow_pickle=True).tolist()
+def ssos(I, axis=0):
+    """
+    Return the square root of the sum of square along axis
+    Parameters
+    ----------
+    I: ndarray
+    axis: int
+    """
+    return np.sqrt(np.sum(np.abs(I) ** 2, axis=axis))
 
+
+if __name__ == "__main__":
+    data = np.load("data/results-online3.npy", allow_pickle=True).tolist()
+    data_offline = np.load("data/results-offline-mask3.npy", allow_pickle=True).tolist()
+    
+    implot(ssos(data["condatvu"]["OWL"][0]))
+    
     online = data2pd(data)
     offline = data2pd(data_offline)
-    COLORS = ["b","r","g","k"]
-    cols = [["condatvuOWL","pogmOWL"],["condatvuGroupLASSO","pogmGroupLASSO"]]
-    metrics = list(online.keys())
-plt.close()
-for col in cols:
-    for m in ["psnr","ssim","cost"]:
-            print(col)
+    for reg in ["OWL", "GroupLASSO"]:
+        for val in ["psnr", "ssim", "offline_cost"]:
             plt.figure()
-            ax = online[m][col].plot(color= COLORS, xlabel='iteration',ylabel=m)
-            offline[m][col].plot(ax=ax,color=COLORS, linestyle='dashed', xlabel='iteration',ylabel=m,title="offline vs online")
+            plt.xlabel('iterations')
+            plt.ylabel(val)
+            plt.title(f"{reg}: online/offline")
+            plt.plot(online[val]["condatvu" + reg], '-r', label="condatvu" + reg + '-on')
+            plt.plot(online[val]["pogm" + reg], '-b', label="pogm" + reg + '-on')
+            plt.plot(offline[val]["condatvu" + reg], '--r', label="condatvu" + reg + '-off')
+            plt.plot(offline[val]["pogm" + reg], '--b', label="pogm" + reg + '-off')
+            plt.legend()
+            plt.savefig(f"plot/{reg}_{val}.png")
             plt.show()

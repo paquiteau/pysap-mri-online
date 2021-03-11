@@ -13,6 +13,7 @@ from modopt.opt.proximity import IdentityProx
 from mri.reconstructors.calibrationless import CalibrationlessReconstructor
 from tqdm import tqdm
 
+
 def ssos(I, axis=0):
     """
     Return the square root of the sum of square along axis
@@ -21,11 +22,13 @@ def ssos(I, axis=0):
     I: ndarray
     axis: int
     """
-    return np.sqrt(np.sum(np.abs(I)**2,axis=axis))
+    return np.sqrt(np.sum(np.abs(I) ** 2, axis=axis))
+
 
 class KspaceGenerator:
-    def __init__(self,full_kspace, max_iteration=200):
+    def __init__(self, full_kspace, max_iteration=200):
         self.kspace = full_kspace
+        self.full_kspace = full_kspace.copy()
         self.max_iteration = max_iteration
         self.mask = np.ones(full_kspace.shape[1:])
         self.iteration = -1
@@ -36,7 +39,7 @@ class KspaceGenerator:
     def __iter__(self):
         return self
 
-    def __getitem__(self,idx):
+    def __getitem__(self, idx):
         return self.kspace, self.mask
 
     def __next__(self):
@@ -45,6 +48,7 @@ class KspaceGenerator:
             return self.__getitem__(self.iteration)
         else:
             raise StopIteration
+
     @property
     def shape(self):
         return self.kspace.shape
@@ -53,12 +57,17 @@ class KspaceGenerator:
     def dtype(self):
         return self.kspace.dtype
 
+
 class KspaceColumnGenerator(KspaceGenerator):
-    def __init__(self,full_kspace, mask_cols=None, max_iteration=200):
-        super().__init__(full_kspace,max_iteration=max_iteration)
-        if mask_cols is not None:
-            self.mask = np.zeros(full_kspace.shape[1:])
-            self.mask[:,mask_cols]=1
+    def __init__(self, full_kspace, mask_cols, max_iteration=200):
+        super().__init__(full_kspace, max_iteration=max_iteration)
+        self.mask = np.zeros(full_kspace.shape[1:])
+        self.mask[:, mask_cols] = 1
+        self.full_mask = self.mask.copy()
+        self.full_kspace.flags.writeable = False
+
+    def __getitem__(self, idx):
+        return self.full_kspace, self.full_mask
 
 class KspaceOnlineColumnGenerator(KspaceGenerator):
     """A Mask generator, adding new sampling column at each iteration
@@ -147,7 +156,7 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             x_init = np.zeros(kspace_generator.shape, dtype=kspace_generator.dtype)
 
         optimizer_type = "primal-dual" if optimization_alg == "condatvu" else "forward_backward"
-        metrics = {"time":[]}
+        metrics = {"time": []}
         if metric_fun:
             metrics |= {mf.__name__: [] for mf in metric_fun}
         cost_op = GenericCost(
@@ -157,6 +166,16 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             cost_interval=1,
             optimizer_type=optimizer_type,
         )
+        offline_cost_op = GenericCost(
+            gradient_op=self.gradient_op,
+            prox_op=self.prox_op,
+            verbose=False,
+            cost_interval=1,
+            optimizer_type=optimizer_type,
+        )
+        offline_cost_op.gradient_op._obs_data = kspace_generator.full_kspace
+        offline_cost_op.gradient_op.fourier_op.kspace_mask = kspace_generator.full_mask
+
         opt_kwargs = dict(cost=cost_op,
                           grad=self.gradient_op,
                           linear=self.linear_op,
@@ -179,28 +198,29 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
         else:
             raise Exception(f"{optimization_alg}: Not Implemented yet")
         x_final = x_init.copy()
-        pbar = tqdm(kspace_generator,desc=f"{opt.__class__.__name__}:{self.prox_op.__class__.__name__}:")
+        pbar = tqdm(kspace_generator, desc=f"{opt.__class__.__name__}:{self.prox_op.__class__.__name__}:")
+        offline_cost = []
         for obs_kspace, mask in pbar:
             opt._grad.obs_data = obs_kspace
             opt._grad.fourier_op.kspace_mask = mask
             ts = perf_counter()
             opt._update()
-            pbar.set_postfix({"cost": opt._cost_func.cost})
             tf = perf_counter()
-            x_final = self.linear_op.adj_op(opt._x_new) if optimizer_type == "forward_backward" else opt._x_new
+            pbar.set_postfix({"cost": opt._cost_func.cost})
+            # get offline cost:
+            if optimizer_type == "forward_backward":
+                offline_cost_op.get_cost(opt._x_new)
+                x_final = self.linear_op.adj_op(opt._x_new)
+            else:
+                offline_cost_op.get_cost(opt._x_new, self.linear_op.op(opt._x_new))
+                x_final = opt._x_new.copy()
             for mf in metric_fun:
                 metrics[mf.__name__].append(mf(ssos(x_final), metric_ref))
-            metrics["time"].append(tf-ts)
-        cost_finals = np.array(opt._cost_func._cost_list)
+            metrics["time"].append(tf - ts)
+
         for k, v in metrics.items():
             metrics[k] = np.array(v)
 
-        metrics["cost"] = cost_finals
-        if ref_image is not None:
-            if optimizer_type == "forward_backward":
-                cost_ref = opt._cost_func._calc_cost(self.linear_op.op(ref_image))
-            else:
-                cost_ref = opt._cost_func._calc_cost(ref_image, self.linear_op.op(ref_image))
-            cost_rel = cost_finals - cost_ref
-            metrics["cost_rel"] = cost_rel
+        metrics["cost"] = np.array(opt._cost_func._cost_list)
+        metrics["offline_cost"] = np.array(offline_cost_op._cost_list)
         return x_final, metrics

@@ -83,7 +83,7 @@ def online_reconstruct(kspace_gen,
                       n_coils=N_COILS,
                       n_jobs=N_JOBS)
     elif prox == "GroupLASSO":
-        prox_op = GroupLASSO(weights=1e-5)
+        prox_op = GroupLASSO(weights=1e-3)
     else:
         raise Exception(f"prox:{prox} Not implemented")
 
@@ -118,17 +118,14 @@ if __name__ == "__main__":
     full_k, real_img, mask_loc, mask = load_data(1)
     # Reference reconstruction
     I_coils, I_ssos = ref_reconstruct(full_k)
-
-    implot(I_ssos, title="Reference image")
     # simulate an online reconstruction
     algo_dict = {
         "condatvu": [{"prox": "OWL"},
                      {"prox": "GroupLASSO"},
-                     {"prox": "GroupLASSO"},
-                     ],
+                      ],
         "pogm": [{"prox": "OWL"},
                  {"prox": "GroupLASSO"}],
-        # "fista": [{"prox": "OWL"},
+        # # "fista": [{"prox": "OWL"},
         #           {"prox": "GroupLASSO"}],
     }
     output = dict()
@@ -140,11 +137,11 @@ if __name__ == "__main__":
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,
                                                   ref_image=I_coils,
-                                                  metric_ref=I_ssos,
+                                                  metric_ref=pfft.fftshift(I_ssos),
                                                   metric_fun=[ssim, psnr],
                                                   **p)
             output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-online2.npy", output)
+    np.save("data/results-online3.npy", output)
     print("OFFLINE RECONSTRUCTION")
     for algo_name, params in algo_dict.items():
         output[algo_name] = dict()
@@ -153,8 +150,8 @@ if __name__ == "__main__":
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,
                                                   ref_image=I_coils,
-                                                  metric_ref=I_ssos,
+                                                  metric_ref=pfft.fftshift(I_ssos),
                                                   metric_fun=[ssim, psnr],
                                                   **p)
             output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-offline-mask2.npy", output)
+    np.save("data/results-offline-mask3.npy", output)
