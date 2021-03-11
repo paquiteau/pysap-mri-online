@@ -201,6 +201,6 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
                 cost_ref = opt._cost_func._calc_cost(self.linear_op.op(ref_image))
             else:
                 cost_ref = opt._cost_func._calc_cost(ref_image, self.linear_op.op(ref_image))
-            cost_finals -= cost_ref
-            metrics["cost_rel"] = cost_finals
+            cost_rel = cost_finals - cost_ref
+            metrics["cost_rel"] = cost_rel
         return x_final, metrics

@@ -83,7 +83,7 @@ def online_reconstruct(kspace_gen,
                       n_coils=N_COILS,
                       n_jobs=N_JOBS)
     elif prox == "GroupLASSO":
-        prox_op = GroupLASSO(weights=1)
+        prox_op = GroupLASSO(weights=1e-5)
     else:
         raise Exception(f"prox:{prox} Not implemented")
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
                                                   metric_fun=[ssim, psnr],
                                                   **p)
             output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-online.npy", output)
+    np.save("data/results-online2.npy", output)
     print("OFFLINE RECONSTRUCTION")
     for algo_name, params in algo_dict.items():
         output[algo_name] = dict()
@@ -157,4 +157,4 @@ if __name__ == "__main__":
                                                   metric_fun=[ssim, psnr],
                                                   **p)
             output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-offline-mask.npy", output)
+    np.save("data/results-offline-mask2.npy", output)
