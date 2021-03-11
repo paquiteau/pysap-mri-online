@@ -18,7 +18,7 @@ from utils import ssos, KspaceGenerator, KspaceColumnGenerator, KspaceOnlineColu
 
 DATA_DIR = "data/"
 RESULT_DIR = "data/results/"
-
+N_JOBS = 1
 
 def load_data(data_idx):
     # data is a list of 5-tuple:
@@ -66,7 +66,7 @@ def online_reconstruct(kspace_gen,
         mask=mask,
         shape=K_DIM,
         n_coils=N_COILS,
-        n_jobs=1
+        n_jobs=N_JOBS
     )
 
     linear_op = WaveletN("sym8", nb_scale=4, n_coils=16, n_jobs=1)
@@ -81,7 +81,7 @@ def online_reconstruct(kspace_gen,
                       bands_shape=linear_op.coeffs_shape,
                       mode='band_based',
                       n_coils=N_COILS,
-                      n_jobs=1)
+                      n_jobs=N_JOBS)
     elif prox == "GroupLASSO":
         prox_op = GroupLASSO(weights=1)
     else:
@@ -92,7 +92,7 @@ def online_reconstruct(kspace_gen,
         linear_op=linear_op,
         regularizer_op=prox_op,
         gradient_formulation="analysis" if rec_kwargs["optimization_alg"] == "condatvu" else "synthesis",
-        n_jobs=1,
+        n_jobs=N_JOBS,
         verbose=0,
     )
     return solver.reconstruct(kspace_gen, **rec_kwargs)
@@ -134,10 +134,8 @@ if __name__ == "__main__":
     output = dict()
     # algo_dict.pop("condatvu")
     for algo_name, params in algo_dict.items():
-        print(algo_name)
         output[algo_name] = dict()
         for p in params:
-            print(p)
             kspace_gen = KspaceOnlineColumnGenerator(full_k, mask_loc)
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,
@@ -147,11 +145,10 @@ if __name__ == "__main__":
                                                   **p)
             output[algo_name]["_".join(p.values())] = [x_final, metrics]
     np.save("data/results-online.npy", output)
+    print("OFFLINE RECONSTRUCTION")
     for algo_name, params in algo_dict.items():
-        print(algo_name)
         output[algo_name] = dict()
         for p in params:
-            print(p)
             kspace_gen = KspaceColumnGenerator(full_k, mask_loc, max_iteration=80)
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,

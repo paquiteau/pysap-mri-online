@@ -101,7 +101,9 @@ class KspaceOnlineColumnGenerator(KspaceGenerator):
 
     def __getitem__(self, idx):
         self.mask[:, self.cols[:idx]] = 1
+        self.kspace.flags.writeable = True
         self.kspace = self.full_kspace * self.mask[np.newaxis, ...]
+        self.kspace.flags.writeable = False
         return self.kspace, self.mask
 
 
@@ -179,7 +181,7 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
         x_final = x_init.copy()
         pbar = tqdm(kspace_generator,desc=f"{opt.__class__.__name__}:{self.prox_op.__class__.__name__}:")
         for obs_kspace, mask in pbar:
-            opt._grad._obs_data = obs_kspace
+            opt._grad.obs_data = obs_kspace
             opt._grad.fourier_op.kspace_mask = mask
             ts = perf_counter()
             opt._update()
@@ -194,9 +196,11 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             metrics[k] = np.array(v)
 
         metrics["cost"] = cost_finals
-        if ref_image:
-            cost_ref = opt._cost_func._calc_cost(ref_image)
-            print(f"COST_REF:{cost_ref}")
+        if ref_image is not None:
+            if optimizer_type == "forward_backward":
+                cost_ref = opt._cost_func._calc_cost(self.linear_op.op(ref_image))
+            else:
+                cost_ref = opt._cost_func._calc_cost(ref_image, self.linear_op.op(ref_image))
             cost_finals -= cost_ref
             metrics["cost_rel"] = cost_finals
         return x_final, metrics
