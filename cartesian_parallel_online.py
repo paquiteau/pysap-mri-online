@@ -13,8 +13,9 @@ from modopt.opt.proximity import GroupLASSO
 from modopt.math.metrics import ssim, psnr
 
 from mri.operators import FFT, WaveletN, OWL
-from utils import ssos, KspaceGenerator, KspaceColumnGenerator, KspaceOnlineColumnGenerator, \
-    OnlineCalibrationlessReconstructor
+from utils import ssos
+from generator import KspaceOnlineColumnGenerator, KspaceColumnGenerator
+from online import OnlineCalibrationlessReconstructor
 
 DATA_DIR = "data/"
 RESULT_DIR = "data/results/"
@@ -63,7 +64,7 @@ def online_reconstruct(kspace_gen,
 
     # Get the locations of the kspace samples
     fourier_op = FFT(
-        mask=mask,
+        mask=kspace_gen.full_mask,
         shape=K_DIM,
         n_coils=N_COILS,
         n_jobs=N_JOBS
@@ -121,37 +122,40 @@ if __name__ == "__main__":
     # simulate an online reconstruction
     algo_dict = {
         "condatvu": [{"prox": "OWL"},
-                     {"prox": "GroupLASSO"},
-                      ],
+                     {"prox": "GroupLASSO"}],
         "pogm": [{"prox": "OWL"},
                  {"prox": "GroupLASSO"}],
         # # "fista": [{"prox": "OWL"},
         #           {"prox": "GroupLASSO"}],
     }
     output = dict()
-    # algo_dict.pop("condatvu")
+    algo_dict = {"condatvu": [{"prox": "GroupLASSO"}]}
+    max_iteration = 125
     for algo_name, params in algo_dict.items():
-        output[algo_name] = dict()
         for p in params:
-            kspace_gen = KspaceOnlineColumnGenerator(full_k, mask_loc)
+            kspace_gen = KspaceOnlineColumnGenerator(full_k, mask_loc, max_iteration=max_iteration)
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,
                                                   ref_image=I_coils,
                                                   metric_ref=pfft.fftshift(I_ssos),
-                                                  metric_fun=[ssim, psnr],
+                                                  metric_fun=[psnr],
                                                   **p)
-            output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-online3.npy", output)
+            output[algo_name] = {"_".join(p.values()): [x_final, metrics]}
+
+    np.save("data/results-online8.npy", output)
+    # relaunch with offline configuration
     print("OFFLINE RECONSTRUCTION")
+    full_k, real_img, mask_loc, mask = load_data(1)
     for algo_name, params in algo_dict.items():
-        output[algo_name] = dict()
         for p in params:
-            kspace_gen = KspaceColumnGenerator(full_k, mask_loc, max_iteration=80)
+            kspace_gen = KspaceColumnGenerator(full_k, mask_loc, max_iteration=max_iteration)
             x_final, metrics = online_reconstruct(kspace_gen,
                                                   optimization_alg=algo_name,
                                                   ref_image=I_coils,
                                                   metric_ref=pfft.fftshift(I_ssos),
                                                   metric_fun=[ssim, psnr],
                                                   **p)
-            output[algo_name]["_".join(p.values())] = [x_final, metrics]
-    np.save("data/results-offline-mask3.npy", output)
+            output[algo_name] = {"_".join(p.values()): [x_final, metrics]}
+
+    np.save("data/results-offline8.npy", output)
+

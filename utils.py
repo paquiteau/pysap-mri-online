@@ -1,226 +1,59 @@
 """
 Some useful abstraction for the online reconstruction framework
 """
+import copy
+from typing import Any, Tuple
+
 import numpy as np
-from time import perf_counter
-# Package import
-from mri.optimizers.utils.cost import GenericCost
-
-# Third party import
-from modopt.opt.algorithms import Condat, POGM
-from modopt.opt.proximity import IdentityProx
-
-from mri.reconstructors.calibrationless import CalibrationlessReconstructor
-from tqdm import tqdm
+import scipy as sp
 
 
-def ssos(I, axis=0):
+
+def ssos(img, axis=0):
     """
     Return the square root of the sum of square along axis
     Parameters
     ----------
-    I: ndarray
+    img: ndarray
     axis: int
     """
-    return np.sqrt(np.sum(np.abs(I) ** 2, axis=axis))
+    return np.sqrt(np.sum(np.abs(img) ** 2, axis=axis))
+
+class MetricsTracker:
+    """A static tracker for  real metrics"""
+
+    def __init__(self, max_iter, metrics, rel_metrics):
+        self.max_iter = max_iter + 1
+        self.metrics = metrics
+        self.rel_metrics = rel_metrics
+        self.results = {metric_name: np.zeros(self.max_iter) for metric_name in metrics.keys()}
+        self.results |= {cost: np.zeros(self.max_iter) for cost in rel_metrics.keys()}
+
+    def update(self, it, x, **kwargs):
+        if it >= self.max_iter:
+            print("warning: expanding array")
+            for array in self.results.values():
+                array.resize(it)
+        for m in self.metrics:
+            self.results[m][it] = self.metrics[m][0](x, self.metrics[m][1:])
+        for rm in self.rel_metrics:
+            args = [kwargs[arg] for arg in self.rel_metrics[rm][1:]]
+            self.results[rm][it] = self.rel_metrics[rm][0](*args)
 
 
-class KspaceGenerator:
-    def __init__(self, full_kspace, max_iteration=200):
-        self.kspace = full_kspace
-        self.full_kspace = full_kspace.copy()
-        self.max_iteration = max_iteration
-        self.mask = np.ones(full_kspace.shape[1:])
-        self.iteration = -1
-
-    def __len__(self):
-        return self.max_iteration
-
-    def __iter__(self):
-        return self
-
-    def __getitem__(self, idx):
-        return self.kspace, self.mask
-
-    def __next__(self):
-        if self.iteration < self.max_iteration:
-            self.iteration += 1
-            return self.__getitem__(self.iteration)
-        else:
-            raise StopIteration
-
-    @property
-    def shape(self):
-        return self.kspace.shape
-
-    @property
-    def dtype(self):
-        return self.kspace.dtype
+def ana_res(primal, kspace, mask):
+    return 0.5 * np.linalg.norm(mask[np.newaxis, ...] *
+                                (kspace -
+                                 sp.fft.ifftshift(sp.fft.fft2(sp.fft.fftshift(primal),
+                                                              norm="ortho",
+                                                              axes=[1, 2])))
+                                ) ** 2
 
 
-class KspaceColumnGenerator(KspaceGenerator):
-    def __init__(self, full_kspace, mask_cols, max_iteration=200):
-        super().__init__(full_kspace, max_iteration=max_iteration)
-        self.mask = np.zeros(full_kspace.shape[1:])
-        self.mask[:, mask_cols] = 1
-        self.full_mask = self.mask.copy()
-        self.full_kspace.flags.writeable = False
+def ana_res2(primal, kspace, mask):
+    return 0.5 * np.linalg.norm((kspace - mask[np.newaxis, ...] *
+                                 sp.fft.ifftshift(sp.fft.fft2(sp.fft.fftshift(primal),
+                                                              norm="ortho",
+                                                              axes=[1, 2])))
+                                ) ** 2
 
-    def __getitem__(self, idx):
-        return self.full_kspace, self.full_mask
-
-class KspaceOnlineColumnGenerator(KspaceGenerator):
-    """A Mask generator, adding new sampling column at each iteration
-    Parameters
-    ----------
-    full_kspace: the fully sampled kspace for every coils
-    mask_cols: the final mask to be sample, composed of columns
-     the 2D dimension of the k-space to be sample
-    max_iteration: the number of steps to be use if n_step = -1,
-    from_center: if True, the column are added into the mask starting
-    from the center and alternating left/right.
-    """
-
-    def __init__(self, full_kspace, mask_cols, max_iteration=-1, from_center=True):
-        super().__init__(full_kspace)
-        self.full_kspace = full_kspace.copy()
-        kspace_dim = full_kspace.shape[1:]
-        self.full_mask = np.zeros(kspace_dim, dtype="int")
-        self.full_mask[:, mask_cols] = 1
-        self.mask = np.zeros(kspace_dim, dtype="int")
-        self.kspace = np.zeros_like(full_kspace)
-        self.max_iteration = max_iteration if max_iteration >= 0 else len(mask_cols)
-        # reorder the column sampling by starting in the center
-        # and alternating left/right expansion
-        if from_center:
-            center_pos = np.argmin(np.abs(mask_cols - kspace_dim[1] // 2))
-            new_idx = np.zeros(mask_cols.shape)
-            mask_cols = list(mask_cols)
-            left = mask_cols[center_pos::-1]
-            right = mask_cols[center_pos + 1:]
-            new_cols = []
-            while left or right:
-                if left:
-                    new_cols.append(left.pop(0))
-                if right:
-                    new_cols.append(right.pop(0))
-            self.cols = np.array(new_cols)
-        else:
-            self.cols = mask_cols
-
-    def __getitem__(self, idx):
-        self.mask[:, self.cols[:idx]] = 1
-        self.kspace.flags.writeable = True
-        self.kspace = self.full_kspace * self.mask[np.newaxis, ...]
-        self.kspace.flags.writeable = False
-        return self.kspace, self.mask
-
-
-class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
-    """
-    A reconstructor with an online paradigm, the data of each step is
-    """
-
-    def reconstruct(
-            self,
-            kspace_generator,
-            optimization_alg="condatvu",
-            x_init=None,
-            ref_image=None,
-            metric_fun=None,
-            metric_ref=None,
-            **kwargs
-    ):
-        """ This method calculates operator transform.
-
-        Parameters
-        ----------
-        kspace_generator: class instance
-            Provides the kspace for each iteration of the algorithm
-        optimization_alg: str (optional, default 'pogm')
-            Type of optimization algorithm to use, 'pogm' | 'fista' |
-            'condatvu'
-        x_init: np.ndarray (optional, default None)
-            input initial guess image for reconstruction. If None, the
-            initialization will be zero
-        ref_image: np.ndarray
-            A ideal reconstruction case, use to compute the relative cost function
-        metric_fun: list
-            A list of function handle to compare the ssos of iteration with metric_ref
-        metric_ref: np.ndarray
-            An image , of which the ssos of the iteration is compared.
-        """
-
-        # arguments handling
-        if x_init is None:
-            x_init = np.zeros(kspace_generator.shape, dtype=kspace_generator.dtype)
-
-        optimizer_type = "primal-dual" if optimization_alg == "condatvu" else "forward_backward"
-        metrics = {"time": []}
-        if metric_fun:
-            metrics |= {mf.__name__: [] for mf in metric_fun}
-        cost_op = GenericCost(
-            gradient_op=self.gradient_op,
-            prox_op=self.prox_op,
-            verbose=False,
-            cost_interval=1,
-            optimizer_type=optimizer_type,
-        )
-        offline_cost_op = GenericCost(
-            gradient_op=self.gradient_op,
-            prox_op=self.prox_op,
-            verbose=False,
-            cost_interval=1,
-            optimizer_type=optimizer_type,
-        )
-        offline_cost_op.gradient_op._obs_data = kspace_generator.full_kspace
-        offline_cost_op.gradient_op.fourier_op.kspace_mask = kspace_generator.full_mask
-
-        opt_kwargs = dict(cost=cost_op,
-                          grad=self.gradient_op,
-                          linear=self.linear_op,
-                          auto_iterate=False)
-        if optimization_alg == "condatvu":
-            # python 3.9+
-            opt_kwargs |= dict(prox=IdentityProx(),
-                               prox_dual=self.prox_op)
-            opt = Condat(x=x_init,
-                         y=np.zeros_like(self.linear_op.op(x_init)),
-                         **opt_kwargs)
-        elif optimization_alg == "pogm":
-            opt_kwargs |= dict(prox=self.prox_op,
-                               beta=self.gradient_op.inv_spec_rad)
-            alpha_init = self.linear_op.op(x_init)
-            opt = POGM(x=alpha_init,
-                       y=alpha_init,
-                       z=alpha_init,
-                       u=alpha_init, **opt_kwargs)
-        else:
-            raise Exception(f"{optimization_alg}: Not Implemented yet")
-        x_final = x_init.copy()
-        pbar = tqdm(kspace_generator, desc=f"{opt.__class__.__name__}:{self.prox_op.__class__.__name__}:")
-        offline_cost = []
-        for obs_kspace, mask in pbar:
-            opt._grad.obs_data = obs_kspace
-            opt._grad.fourier_op.kspace_mask = mask
-            ts = perf_counter()
-            opt._update()
-            tf = perf_counter()
-            pbar.set_postfix({"cost": opt._cost_func.cost})
-            # get offline cost:
-            if optimizer_type == "forward_backward":
-                offline_cost_op.get_cost(opt._x_new)
-                x_final = self.linear_op.adj_op(opt._x_new)
-            else:
-                offline_cost_op.get_cost(opt._x_new, self.linear_op.op(opt._x_new))
-                x_final = opt._x_new.copy()
-            for mf in metric_fun:
-                metrics[mf.__name__].append(mf(ssos(x_final), metric_ref))
-            metrics["time"].append(tf - ts)
-
-        for k, v in metrics.items():
-            metrics[k] = np.array(v)
-
-        metrics["cost"] = np.array(opt._cost_func._cost_list)
-        metrics["offline_cost"] = np.array(offline_cost_op._cost_list)
-        return x_final, metrics
