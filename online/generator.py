@@ -1,10 +1,13 @@
+import numpy as np
+from tqdm import tqdm
+
 class KspaceGenerator:
     def __init__(self, full_kspace, max_iteration: int = 200):
         self.kspace = full_kspace.copy()
         self.full_kspace = full_kspace.copy()
         self.max_iteration = max_iteration
         self.mask = np.ones(full_kspace.shape[1:])
-        self.iteration = -1
+        self.iteration = 0
 
     def __len__(self):
         return self.max_iteration
@@ -30,6 +33,17 @@ class KspaceGenerator:
     def dtype(self):
         return self.kspace.dtype
 
+
+    def opt_iterate(self,opt, num_iter=1):
+        """ Perform the iteration over an Modopt optimiser optimiser defined"""
+        for i in range(num_iter):
+            opt.idx += 1
+            opt._grad._obs_data, opt._grad.fourier_op.mask = self.__next__()
+            opt._update()
+            if opt.metrics and opt.metric_call_period is not None:
+                if opt.idx % opt.metric_call_period == 0 or \
+                        opt.idx == (self.max_iteration - 1):
+                    opt._compute_metrics()
 
 class KspaceColumnGenerator(KspaceGenerator):
     def __init__(self, full_kspace, mask_cols, max_iteration: int = 200):

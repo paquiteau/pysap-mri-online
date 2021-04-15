@@ -7,8 +7,6 @@ from typing import Any, Tuple
 import numpy as np
 import scipy as sp
 
-
-
 def ssos(img, axis=0):
     """
     Return the square root of the sum of square along axis
@@ -20,10 +18,10 @@ def ssos(img, axis=0):
     return np.sqrt(np.sum(np.abs(img) ** 2, axis=axis))
 
 class MetricsTracker:
-    """A static tracker for  real metrics"""
-
+    """A static tracker, to log metrics computed during algorithms
+    """
     def __init__(self, max_iter, metrics, rel_metrics):
-        self.max_iter = max_iter + 1
+        self.max_iter = max_iter
         self.metrics = metrics
         self.rel_metrics = rel_metrics
         self.results = {metric_name: np.zeros(self.max_iter) for metric_name in metrics.keys()}
