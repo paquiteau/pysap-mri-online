@@ -89,9 +89,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
     dual = linear_op.op(primal)
     weights = dual
 
-    init_data, init_mask = kspace_generator[0]
-    gradient_op._obs_data = init_data
-    gradient_op.fourier_op.mask = init_mask
     # Define the weights used during the thresholding in the dual domain,
     # the reweighting strategy, and the prox dual operator
 
@@ -164,15 +161,15 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
         linear=linear_op,
         cost=cost_op,
         rho=relaxation_factor,
-        sigma=sigma,
-        tau=tau,
+       # sigma=sigma,
+       # tau=tau,
         rho_update=None,
         sigma_update=None,
         tau_update=None,
         auto_iterate=False,
         metric_call_period=metric_call_period,
         metrics=metrics)
-
+    opt.idx = 0
     cost_op = opt._cost_func
 
     # Perform the first reconstruction
@@ -213,8 +210,8 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
         print("-" * 40)
 
     # Get the final solution
-    x_final = opt.x_final
-    y_final = opt.y_final
+    x_final = opt._x_new
+    y_final = opt._y_new
     if hasattr(cost_op, "cost"):
         costs = cost_op._cost_list
     else:

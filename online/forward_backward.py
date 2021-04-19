@@ -20,7 +20,7 @@ import numpy as np
 from modopt.opt.algorithms import ForwardBackward, POGM
 
 
-def fista(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
+def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
           lambda_init=1.0, max_nb_of_iter=300, x_init=None,
           metric_call_period=5, metrics=None,
           verbose=0, **lambda_update_params):
@@ -114,6 +114,7 @@ def fista(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
     # Perform the reconstruction
     if verbose > 0:
         print("Starting optimization...")
+    opt.idx = 0
     kspace_generator.opt_iterate(opt)
 
     end = time.perf_counter()
@@ -126,7 +127,7 @@ def fista(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         print("Done.")
         print("Execution time: ", end - start, " seconds")
         print("-" * 40)
-    x_final = linear_op.adj_op(opt.x_final)
+    x_final = linear_op.adj_op(opt._x_new)
     if hasattr(cost_op, "cost"):
         costs = cost_op._cost_list
     else:
@@ -135,7 +136,7 @@ def fista(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
     return x_final, costs, opt.metrics
 
 
-def pogm(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
+def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
          max_nb_of_iter=300, x_init=None, metric_call_period=5,
          sigma_bar=0.96, metrics={}, verbose=0):
     """
@@ -214,7 +215,7 @@ def pogm(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         metrics=metrics,
         auto_iterate=False,
     )
-
+    opt.idx = 0
     # Perform the reconstruction
     if verbose > 0:
         print("Starting optimization...")
@@ -229,7 +230,7 @@ def pogm(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         print("Done.")
         print("Execution time: ", end - start, " seconds")
         print("-" * 40)
-    x_final = linear_op.adj_op(opt.x_final)
+    x_final = linear_op.adj_op(opt._x_new)
     metrics = opt.metrics
 
     if hasattr(cost_op, "cost"):
