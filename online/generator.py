@@ -1,88 +1,70 @@
 import numpy as np
 from tqdm import tqdm
 
+
 class KspaceGenerator:
-    def __init__(self, full_kspace, max_iteration: int = 200):
+    """
+    A Kspace Factory emulate the acquisition of an MRI.
+
+    Parameters
+    ----------
+    full_kspace: np.ndarray
+        The fully sampled kspace, which will be returned incrementally, and a mask, use for the fourier transform
+    mask: np.ndarray
+        A binary mask, giving the sampled location for the kspace
+    """
+
+    def __init__(self, full_kspace: np.ndarray, mask: np.ndarray, max_iter: int = 1):
+        self._full_kspace = full_kspace
         self.kspace = full_kspace.copy()
-        self.full_kspace = full_kspace.copy()
-        self.max_iteration = max_iteration
-        self.mask = np.ones(full_kspace.shape[1:])
-        self.iteration = 0
+        self.mask = mask
+        self._len = max_iter
+        self.iter = 0
+
+    @property
+    def shape(self):
+        return self._full_kspace.shape
+
+    @property
+    def dtype(self):
+        return self._full_kspace.dtype
 
     def __len__(self):
-        return self.max_iteration
+        return self._len
 
     def __iter__(self):
         return self
 
     def __getitem__(self, idx):
-        return self.kspace, self.mask
+        if idx >= self._len:
+            raise IndexError
+        else:
+             return self._full_kspace, self.mask
 
     def __next__(self):
-        if self.iteration < self.max_iteration:
-            self.iteration += 1
-            return self.__getitem__(self.iteration)
+        if self.iter < self._len:
+            self.iter += 1
+            return self._full_kspace, self.mask
         else:
             raise StopIteration
 
-    @property
-    def shape(self):
-        return self.kspace.shape
-
-    @property
-    def dtype(self):
-        return self.kspace.dtype
-
-
-    def opt_iterate(self,opt, num_iter=1):
-        """ Perform the iteration over an Modopt optimiser optimiser defined"""
-        for i in range(num_iter):
+    def opt_iterate(self, opt):
+        for it, (kspace, mask) in enumerate(tqdm(self)):
             opt.idx += 1
-            opt._grad._obs_data, opt._grad.fourier_op.mask = self.__next__()
+            opt._grad._obs_data = kspace
+            opt._grad.fourier_op.mask = mask
             opt._update()
             if opt.metrics and opt.metric_call_period is not None:
-                if opt.idx % opt.metric_call_period == 0 or \
-                        opt.idx == (self.max_iteration - 1):
+                if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
                     opt._compute_metrics()
+        opt.retrieve_outputs()
 
-class KspaceColumnGenerator(KspaceGenerator):
-    def __init__(self, full_kspace, mask_cols, max_iteration: int = 200):
-        super().__init__(full_kspace, max_iteration=max_iteration)
-        self.mask = np.zeros(full_kspace.shape[1:])
-        self.mask[:, mask_cols] = 1
-        self.full_mask = self.mask.copy()
-        self.full_kspace.flags.writeable = False
+class Column2DKspaceGenerator(KspaceGenerator):
+    def __init__(self, full_kspace, mask_cols, max_iter=0):
+        mask = np.zeros(full_kspace.shape[1:])
 
-    def __getitem__(self, idx):
-        return self.full_kspace, self.full_mask
-
-
-class KspaceOnlineColumnGenerator(KspaceGenerator):
-    """A Mask generator, adding new sampling column at each iteration
-    Parameters
-    ----------
-    full_kspace: the fully sampled kspace for every coils
-    mask_cols: the final mask to be sampled, composed of columns
-     the 2D dimension of the k-space to be sample
-    max_iteration: the number of steps to be use.
-     If max_iteration = -1, use the number of columns
-    from_center: if True, the column are added into the mask starting
-    from the center and alternating left/right.
-    """
-
-    def __init__(self, full_kspace, mask_cols, max_iteration: int = -1, from_center: bool = True):
-        super().__init__(full_kspace)
-        self.full_kspace = full_kspace.copy()
-        kspace_dim = full_kspace.shape[1:]
-        self.full_mask = np.zeros(kspace_dim, dtype="int")
-        self.full_mask[:, mask_cols] = 1
-        self.mask = np.zeros(kspace_dim, dtype="int")
-        self.kspace = np.zeros_like(full_kspace)
-        self.max_iteration = max_iteration if max_iteration >= 0 else len(mask_cols)
-        # reorder the column sampling by starting in the center
-        # and alternating left/right expansion
-        if from_center:
-            center_pos = np.argmin(np.abs(mask_cols - kspace_dim[1] // 2))
+        def flip2center(mask_cols, center_pos):
+            """ reorder a list by starting by a center_position and alternating left/right"""
             mask_cols = list(mask_cols)
             left = mask_cols[center_pos::-1]
             right = mask_cols[center_pos + 1:]
@@ -92,14 +74,27 @@ class KspaceOnlineColumnGenerator(KspaceGenerator):
                     new_cols.append(left.pop(0))
                 if right:
                     new_cols.append(right.pop(0))
-            self.cols = np.array(new_cols)
-        else:
-            self.cols = mask_cols
+            return np.array(new_cols)
 
-    def __getitem__(self, idx):
-        idx = min(idx, len(self.cols))
+        self.cols = flip2center(mask_cols, np.argmin(np.abs(mask_cols - full_kspace.shape[2] // 2)))
+        if max_iter == 0:
+            max_iter = len(self.cols)
+        super().__init__(full_kspace, mask, max_iter=max_iter)
+
+    def __getitem__(self, it):
+        if it > self._len:
+            raise IndexError
+        idx = min(it, len(self.cols))
+        mask = np.zeros(self.shape[1:])
+        mask[:, self.cols[:idx]] = 1
+        kspace = self._full_kspace * self.mask[np.newaxis, ...]
+        return kspace, mask
+
+    def __next__(self):
+        if self.iter > self._len:
+            raise StopIteration
+        idx = min(self.iter, len(self.cols))
         self.mask[:, self.cols[:idx]] = 1
-        self.kspace.flags.writeable = True
-        self.kspace = self.full_kspace * self.mask[np.newaxis, ...]
-        self.kspace.flags.writeable = False
+        self.kspace = self._full_kspace * self.mask[np.newaxis, ...]
+        self.iter += 1
         return self.kspace, self.mask
