@@ -4,8 +4,8 @@ import time
 from mri.reconstructors.calibrationless import CalibrationlessReconstructor
 from mri.optimizers.utils.cost import GenericCost
 
-from forward_backward import fista, pogm
-from primal_dual import condatvu_online
+from .forward_backward import fista_online, pogm_online
+from .primal_dual import condatvu_online
 
 class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
     """
@@ -34,8 +34,7 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             initialization will be zero
 
         """
-
-        available_algorithms = ["condatvu","fista","pogm"]
+        available_algorithms = ["condatvu", "fista", "pogm"]
         if optimization_alg not in available_algorithms:
             raise ValueError("The optimization_alg must be one of " +
                              str(available_algorithms))
@@ -43,22 +42,23 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
 
         if optimization_alg == "condatvu":
             kwargs["dual_regularizer"] = self.prox_op
+            kwargs["std_est_method"] = None
             optimizer_type = 'primal_dual'
         else:
             kwargs["prox_op"] = self.prox_op
             optimizer_type = 'forward_backward'
 
         if cost_op_kwargs is None:
-            cost_op_kwargs = {}
+            cost_op_kwargs = dict()
 
         cost_op = GenericCost(
             gradient_op=self.gradient_op,
             prox_op=self.prox_op,
             verbose=self.verbose >= 20,
             optimizer_type=optimizer_type,
+            cost_interval=1,
             **cost_op_kwargs,
         )
-
         x_final, costs, *metrics = optimizer(
             kspace_generator=kspace_generator,
             gradient_op=self.gradient_op,
