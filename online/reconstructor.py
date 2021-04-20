@@ -56,7 +56,6 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             prox_op=self.prox_op,
             verbose=self.verbose >= 20,
             optimizer_type=optimizer_type,
-            cost_interval=1,
             **cost_op_kwargs,
         )
         x_final, costs, *metrics = optimizer(
