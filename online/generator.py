@@ -48,7 +48,12 @@ class KspaceGenerator:
         else:
             raise StopIteration
 
-    def opt_iterate(self, opt):
+    def reset(self):
+        self.iter = 0
+
+    def opt_iterate(self, opt,reset=True):
+        if reset:
+            self.reset()
         for it, (kspace, mask) in enumerate(tqdm(self)):
             opt.idx += 1
             opt._grad._obs_data = kspace
