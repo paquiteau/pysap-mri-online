@@ -86,20 +86,41 @@ class Column2DKspaceGenerator(KspaceGenerator):
             max_iter = len(self.cols)
         super().__init__(full_kspace, mask, max_iter=max_iter)
 
+    def kspace_mask(self, idx):
+        mask = np.zeros(self.shape[1:])
+        mask[:, self.cols[:idx]] = 1
+        kspace = self._full_kspace * mask[np.newaxis, ...]
+        return kspace, mask
+
     def __getitem__(self, it):
         if it > self._len:
             raise IndexError
         idx = min(it, len(self.cols))
-        mask = np.zeros(self.shape[1:])
-        mask[:, self.cols[:idx]] = 1
-        kspace = self._full_kspace * self.mask[np.newaxis, ...]
-        return kspace, mask
+        return self.kspace_mask(idx)
 
     def __next__(self):
         if self.iter > self._len:
             raise StopIteration
         idx = min(self.iter, len(self.cols))
-        self.mask[:, self.cols[:idx]] = 1
-        self.kspace = self._full_kspace * self.mask[np.newaxis, ...]
         self.iter += 1
-        return self.kspace, self.mask
+        return self.kspace_mask(idx)
+
+class PartialColumn2DKspaceGenerator(Column2DKspaceGenerator):
+    def __getitem__(self, it):
+        if it >= self._len:
+            raise IndexError
+        idx = min(it, len(self.cols)-1)
+        return self.kspace_mask(idx)
+
+    def __next__(self):
+        if self.iter >= self._len:
+            raise StopIteration
+        idx = min(self.iter, len(self.cols)-1)
+        self.iter += 1
+        return self.kspace_mask(idx)
+
+    def kspace_mask(self, idx):
+        mask = np.zeros(self.shape[1:])
+        mask[:, self.cols[idx]] = 1
+        kspace = self._full_kspace * mask[np.newaxis, ...]
+        return kspace, mask
