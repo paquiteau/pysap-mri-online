@@ -10,8 +10,10 @@ def crop_center_square(img: np.ndarray):
     return img[center[0] - short_side:center[0] + short_side, center[1] - short_side:center[1] + short_side]
 
 def ssos(img):
-    return crop_center_square(pfft.fftshift(np.sqrt(np.sum(img ** 2, axis=0))))
-
+    if len(img.shape) == 3:
+        return crop_center_square(pfft.fftshift(np.sqrt(np.sum(img ** 2, axis=0))))
+    else:
+        return crop_center_square(pfft.fftshift(np.sqrt(img ** 2)))
 
 def psnr_ssos(test, ref):
     test = ssos(test)
