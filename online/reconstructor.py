@@ -1,4 +1,5 @@
 import numpy as np
+
 # Package import
 import time
 from mri.reconstructors.calibrationless import CalibrationlessReconstructor
@@ -6,6 +7,11 @@ from mri.optimizers.utils.cost import GenericCost
 
 from .forward_backward import fista_online, pogm_online
 from .primal_dual import condatvu_online
+
+
+class OnlineCalibrationless(CalibrationlessReconstructor):
+    """ A reconstructor with an Online reconstruction Gradient."""
+
 
 class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
     """
@@ -15,8 +21,14 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
     x_k = \\frac{S}{2k}|| F_k x - y_k ||_2^2 + \\lambda || \\Psi x_k ||
     """
 
-    def reconstruct(self, kspace_generator, optimization_alg="condatvu",
-                    x_init=None, cost_op_kwargs=None, **kwargs):
+    def reconstruct(
+        self,
+        kspace_generator,
+        optimization_alg="condatvu",
+        x_init=None,
+        cost_op_kwargs=None,
+        **kwargs
+    ):
         """This method calculates operator transform.
         Parameters
         ----------
@@ -36,17 +48,18 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
         """
         available_algorithms = ["condatvu", "fista", "pogm"]
         if optimization_alg not in available_algorithms:
-            raise ValueError("The optimization_alg must be one of " +
-                             str(available_algorithms))
-        optimizer = eval(optimization_alg+"_online")
+            raise ValueError(
+                "The optimization_alg must be one of " + str(available_algorithms)
+            )
+        optimizer = eval(optimization_alg + "_online")
 
         if optimization_alg == "condatvu":
             kwargs["dual_regularizer"] = self.prox_op
             kwargs["std_est_method"] = None
-            optimizer_type = 'primal_dual'
+            optimizer_type = "primal_dual"
         else:
             kwargs["prox_op"] = self.prox_op
-            optimizer_type = 'forward_backward'
+            optimizer_type = "forward_backward"
 
         if cost_op_kwargs is None:
             cost_op_kwargs = dict()
@@ -65,8 +78,9 @@ class OnlineCalibrationlessReconstructor(CalibrationlessReconstructor):
             cost_op=cost_op,
             x_init=x_init,
             verbose=self.verbose,
-            **kwargs)
-        if optimization_alg == 'condatvu':
+            **kwargs,
+        )
+        if optimization_alg == "condatvu":
             metrics, y_final = metrics
         else:
             metrics = metrics[0]
