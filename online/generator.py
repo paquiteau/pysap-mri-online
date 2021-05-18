@@ -116,7 +116,7 @@ class Column2DKspaceGenerator(KspaceGenerator):
 class PartialColumn2DKspaceGenerator(Column2DKspaceGenerator):
     """ k-space Generator yielding only the newly acquired line"""
 
-    def __getitem__(self, it):
+    def __getitem__(self, it: int):
         if it >= self._len:
             raise IndexError
         idx = min(it, len(self.cols) - 1)
@@ -129,14 +129,28 @@ class PartialColumn2DKspaceGenerator(Column2DKspaceGenerator):
         self.iter += 1
         return self.kspace_mask(idx)
 
-    def kspace_mask(self, idx):
+    def kspace_mask(self, idx: int):
         mask = np.zeros(self.shape[-2:])
         mask[:, self.cols[idx]] = 1
         kspace = np.squeeze(self._full_kspace * mask[np.newaxis, ...])
         return kspace, mask
 
 class DataOnlyKspaceGenerator(Column2DKspaceGenerator):
-    def kspace_mask(self,idx):
+    """ Kspace Generator to be used with a ColumnFFT Operator"""
+    def kspace_mask(self, idx: int):
         col = self.cols[idx]
-        kspace = self.kspace[...,col]
+        kspace = self.kspace[..., col]
         return kspace, col
+
+    def opt_iterate(self, opt, reset=True):
+        if reset:
+            self.reset()
+        for (kspace, col) in tqdm(self):
+            opt.idx += 1
+            opt._grad._obs_data = kspace
+            opt._grad.fourier_op.line_index = col
+            opt._update()
+            if opt.metrics and opt.metric_call_period is not None:
+                if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
+                    opt._compute_metrics()
+        opt.retrieve_outputs()
