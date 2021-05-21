@@ -1,18 +1,13 @@
 import time
 import numpy as np
 
-
 # Third party import
-from mri.optimizers.utils.reweight import mReweight
 from modopt.opt.algorithms import Condat
-from modopt.math.stats import sigma_mad
 from modopt.opt.linear import Identity
-from modopt.opt.reweight import cwbReweight
 
-
-def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, cost_op,
+def condatvu_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
                     max_nb_of_iter=150, tau=None, sigma=None, relaxation_factor=1.0,
-                    x_init=None, std_est=None, std_est_method=None, std_thr=2.,
+                    x_init=None, std_est=None,
                     nb_of_reweights=1, metric_call_period=5, metrics=None, verbose=0):
     """ The Condat-Vu sparse reconstruction with reweightings.
 
@@ -24,7 +19,7 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
         the gradient operator.
     linear_op: instance of LinearBase
         the linear operator: seek the sparsity, ie. a wavelet transform.
-    dual_regularizer: instance of ProximityParent
+    prox_op: instance of ProximityParent
         the  dual regularization operator
     cost_op: instance of costObj
         the cost function used to check for convergence during the
@@ -43,13 +38,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
     std_est: float, default None
         the noise std estimate.
         If None use the MAD as a consistent estimator for the std.
-    std_est_method: str, default None
-        if the standard deviation is not set, estimate this parameter using
-        the mad routine in the image ('primal') or in the sparse wavelet
-        decomposition ('dual') domain.
-    std_thr: float, default 2.
-        use this treshold expressed as a number of sigma in the residual
-        proximity operator during the thresholding.
     relaxation_factor: float, default 0.5
         parameter of the Condat-Vu proximal-dual splitting algorithm.
         If 1, no relaxation.
@@ -87,34 +75,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
                                      dtype=np.complex128))
     primal = x_init
     dual = linear_op.op(primal)
-    weights = dual
-
-    # Define the weights used during the thresholding in the dual domain,
-    # the reweighting strategy, and the prox dual operator
-
-    # Case1: estimate the noise std in the image domain
-    if std_est_method == "primal":
-        if std_est is None:
-            std_est = sigma_mad(gradient_op.MtX(gradient_op.obs_data))
-        weights[...] = std_thr * std_est
-        reweight_op = cwbReweight(weights)
-        dual_regularizer.weights = reweight_op.weights
-
-    # Case2: estimate the noise std in the sparse wavelet domain
-    elif std_est_method == "dual":
-        if std_est is None:
-            std_est = 0.0
-        weights[...] = std_thr * std_est
-        reweight_op = mReweight(weights, linear_op, thresh_factor=std_thr)
-        dual_regularizer.weights = reweight_op.weights
-
-    # Case3: manual regularization mode, no reweighting
-    elif std_est_method is None:
-        reweight_op = None
-        nb_of_reweights = 0
-    else:
-        raise ValueError(
-            "Unrecognize std estimation method '{0}'.".format(std_est_method))
 
     # Define the Condat Vu optimizer: define the tau and sigma in the
     # Condat-Vu proximal-dual splitting algorithm if not already provided.
@@ -133,7 +93,7 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
 
     # Welcome message
     if verbose > 0:
-        print(" - mu: ", dual_regularizer.weights)
+        print(" - mu: ", prox_op.weights)
         print(" - lipschitz constant: ", gradient_op.spec_rad)
         print(" - tau: ", tau)
         print(" - sigma: ", sigma)
@@ -149,20 +109,20 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
         print(" - dual variable shape: ", dual.shape)
         print("-" * 40)
 
-    prox_op = Identity()
+    prox_primal = Identity()
 
     # Define the optimizer
     opt = Condat(
         x=primal,
         y=dual,
         grad=gradient_op,
-        prox=prox_op,
-        prox_dual=dual_regularizer,
+        prox=prox_primal,
+        prox_dual=prox_op,
         linear=linear_op,
         cost=cost_op,
         rho=relaxation_factor,
-       # sigma=sigma,
-       # tau=tau,
+        # sigma=sigma,
+        # tau=tau,
         rho_update=None,
         sigma_update=None,
         tau_update=None,
@@ -177,26 +137,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, dual_regularizer, 
         print("Starting optimization...")
 
     kspace_generator.opt_iterate(opt)
-
-    # Loop through the number of reweightings
-    for reweight_index in range(nb_of_reweights):
-
-        # Generate the new weights following reweighting prescription
-        if std_est_method == "primal":
-            reweight_op.reweight(linear_op.op(opt._x_new))
-        else:
-            std_est = reweight_op.reweight(opt._x_new)
-
-        # Welcome message
-        if verbose > 0:
-            print(" - reweight: ", reweight_index + 1)
-            print(" - std: ", std_est)
-
-        # Update the weights in the dual proximity operator
-        dual_regularizer.weights = reweight_op.weights
-
-        # Perform optimisation with new weights
-        # opt.iterate(max_iter=max_nb_of_iter)
 
     # Goodbye message
     end = time.perf_counter()

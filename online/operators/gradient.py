@@ -17,17 +17,15 @@ class OnlineGradMixin:
         TypeError
             For invalid input type
         """
-        return super()._obs_data
+        return self._obs_data
 
     @obs_data.setter
     def obs_data(self, data):
-        instance = super(OnlineGradMixin, self.__class__)
-        if instance._grad_data_type in (float, np.floating):
+        if self._grad_data_type in (float, np.floating):
             data = check_float(data)
-        check_npndarray(data, dtype=instance._grad_data_type, writeable=True,
-                        verbose=instance.verbose)
+        check_npndarray(data, dtype=self._grad_data_type, writeable=True)
 
-        instance._obs_data = data
+        self._obs_data = data
 
     # TODO: define a vector cost, with offline comparison if available.
 
@@ -35,5 +33,5 @@ class OnlineGradMixin:
 class OnlineGradSynthesis(OnlineGradMixin, GradSynthesis):
     pass
 
-class OnlineGradAnalysis(OnlineGradMixin, GradAnalysis, ):
+class OnlineGradAnalysis(OnlineGradMixin, GradAnalysis):
     pass

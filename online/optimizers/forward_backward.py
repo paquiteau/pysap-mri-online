@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
-##########################################################################
-# pySAP - Copyright (C) CEA, 2017 - 2018
-# Distributed under the terms of the CeCILL-B license, as published by
-# the CEA-CNRS-INRIA. Refer to the LICENSE file or to
-# http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html
-# for details.
-##########################################################################
-
 """
 FISTA or POGM MRI reconstruction.
 """
-
 
 # System import
 import time
@@ -21,9 +12,9 @@ from modopt.opt.algorithms import ForwardBackward, POGM
 
 
 def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
-          lambda_init=1.0, max_nb_of_iter=300, x_init=None,
-          metric_call_period=5, metrics=None,
-          verbose=0, **lambda_update_params):
+                 lambda_init=1.0, x_init=None,
+                 metric_call_period=5, metrics=None,
+                 verbose=0, **lambda_update_params):
     """ The FISTA sparse reconstruction
 
     Parameters
@@ -41,9 +32,6 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         optimization.
     lambda_init: float, (default 1.0)
         initial value for the FISTA step.
-    max_nb_of_iter: int (optional, default 300)
-        the maximum number of iterations in the Condat-Vu proximal-dual
-        splitting algorithm.
     x_init: np.ndarray (optional, default None)
         Inital guess for the image
     metric_call_period: int (default 5)
@@ -83,7 +71,6 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         print(" - data: ", gradient_op.fourier_op.shape)
         if hasattr(linear_op, "nb_scale"):
             print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
-        print(" - max iterations: ", max_nb_of_iter)
         print(" - image variable shape: ", gradient_op.fourier_op.shape)
         print(" - alpha variable shape: ", alpha_init.shape)
         print("-" * 40)
@@ -137,8 +124,8 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
 
 
 def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
-         max_nb_of_iter=300, x_init=None, metric_call_period=5,
-         sigma_bar=0.96, metrics={}, verbose=0):
+                x_init=None, metric_call_period=5,
+                sigma_bar=0.96, metrics=None, verbose=0):
     """
     Perform sparse reconstruction using the POGM algorithm.
 
@@ -155,8 +142,6 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
     cost_op: instance of costObj, (default None)
         the cost function used to check for convergence during the
         optimization.
-    max_nb_of_iter: int (optional, default 300)
-        the maximum number of iterations in the POGM algorithm.
     x_init: np.ndarray (optional, default None)
         the initial guess of image
     metric_call_period: int (default 5)
@@ -166,7 +151,8 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         [@metric, metric_parameter]}. See modopt for the metrics API.
     verbose: int (optional, default 0)
         the verbosity level.
-
+    sigma_bar: float (optional, default 0.96)
+        sigma estimation for the algorithm
     Returns
     -------
     x_final: ndarray
@@ -178,6 +164,8 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
     """
     start = time.perf_counter()
 
+    if metrics is None:
+        metrics = dict()
     # Define the initial values
     im_shape = (gradient_op.linear_op.n_coils, *gradient_op.fourier_op.shape)
     if x_init is None:
@@ -193,7 +181,6 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         print(" - data: ", gradient_op.fourier_op.shape)
         if hasattr(linear_op, "nb_scale"):
             print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
-        print(" - max iterations: ", max_nb_of_iter)
         print(" - image variable shape: ", im_shape)
         print("-" * 40)
 
@@ -231,11 +218,11 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         print("Execution time: ", end - start, " seconds")
         print("-" * 40)
     x_final = linear_op.adj_op(opt._x_new)
-    metrics = opt.metrics
+    metrics_results = opt.metrics
 
     if hasattr(cost_op, "cost"):
         costs = cost_op._cost_list
     else:
         costs = None
 
-    return x_final, costs, metrics
+    return x_final, costs, metrics_results

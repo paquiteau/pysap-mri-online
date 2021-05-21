@@ -1,8 +1,6 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paquiteau/projet-atsi/master)
 
-# Online Reconstruction of 2D MRI
-
-ATSI Master Project 
+# Online MRI Reconstruction
 
 ## Installation 
 Dependencies:
@@ -22,7 +20,30 @@ pip install --upgrade git+https://github.com/CEA-COSMIC/pysap.git
 pip install --upgrade git+https://github.com/paquiteau/pysap-mri.git
 ```
 
-# Known Problems:
-Gradient operation with GPU cause segfault with PyNUFFT. This is likely due to miss-feeding an array.
+# TODO: 
+## Parameters and Hyper-parameters
+### Inputs parameters
+ - Mono- vs Multi-coil MRI
+ - Size of the reconstruction
+ - Size of the kspace acquision
+ - Acquisition strategy of the kspace 
 
+### Reconstruction Operator
+ - Fourier Operator: FFT2D, FFT1.5D, NUFFT
+ - Regularisation Domain: Wavelet(type, nb_scale)... 
+ - Regularisation function: 
+   - Norm l_1 l_2 l_{1,2}, OWL
+   - Order of the dimension (per coil, per bands, all coef...)
+ - Gradient formulation: Analysis vs Synthesis
+### Reconstruction Algorithm
+#### Forward-Backward
+-> Regularisation at which step
+- POGM 
+- FISTA
+- Vanilla Gradient Descent
+- Custom Gradient Descent Strategies
 
+#### Primal-Dual 
+-> regularisation mandatory at each step (use of the dual variable)
+
+- Condat Vu 
