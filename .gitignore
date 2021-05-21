@@ -1,4 +1,5 @@
 data/
 plot/
 references/
-
+*.npy
+online-notebook/.ipynb_checkpoints/
