@@ -23,8 +23,8 @@ class GenericGradOpt(SetUp):
         self.iter = 0
         self._check_input_data(x)
         self._x_old = np.copy(x)
-        self._z_old = np.copy(x)
-        self._scale = np.zeros(x.shape, dtype=float)
+        self._x_new = np.copy(x)
+        self._speed_grad = np.zeros(x.shape, dtype=float)
         self._corr_grad = np.zeros_like(x)
 
         # Set the algorithm operators
@@ -48,12 +48,12 @@ class GenericGradOpt(SetUp):
 
     def _update(self):
         self._grad.get_grad(self._x_old)
-        self.update_grad(self._grad.grad)
-        self.update_scale(self._grad.grad)
+        self.update_grad_dir(self._grad.grad)
+        self.update_grad_speed(self._grad.grad)
+        Gamma = (self._eta / np.sqrt(self._speed_grad + self._eps))
+        self._x_new = self._x_old - Gamma * self._corr_grad
 
-        self._x_new = self._x_old - (self._eta / np.sqrt(self._scale + self._eps)) * self._corr_grad
-
-        self.update_reg()
+        self.update_reg(Gamma)
         self._x_old = self._x_new.copy()
 
         # Test cost function for convergence.
@@ -61,14 +61,15 @@ class GenericGradOpt(SetUp):
             self.converge = self.any_convergence_flag() or \
                             self._cost_func.get_cost(self._x_new)
 
-    def update_grad(self, grad):
+    def update_grad_dir(self, grad):
         self._corr_grad = grad
 
-    def update_scale(self, grad):
+    def update_grad_speed(self, grad):
         pass
 
-    def update_reg(self):
-        pass
+    def update_reg(self, factor):
+        self._x_new = self._linear.adj_op(self._prox.op(self._linear.op(self._x_new),
+                                                        extra_factor=factor))
 
     def get_notify_observers_kwargs(self):
         """Notify observers
@@ -106,8 +107,8 @@ class VanillaGenericGradOPt(GenericGradOpt):
 
 
 class AdaGenericGradOpt(GenericGradOpt):
-    def update_scale(self, grad):
-        self._scale += grad ** 2
+    def update_grad_speed(self, grad):
+        self._speed_grad += abs(grad) ** 2
 
 
 class RMSpropGradOpt(GenericGradOpt):
@@ -119,8 +120,8 @@ class RMSpropGradOpt(GenericGradOpt):
         self._check_param(gamma)
         self._gamma = gamma
 
-    def update_scale(self, grad):
-        self._scale = self._gamma * self._scale + (1 - self._gamma) * grad ** 2
+    def update_grad_speed(self, grad):
+        self._scale = self._gamma * self._scale + (1 - self._gamma) * abs(grad) ** 2
 
 
 class MomemtumGradOpt(GenericGradOpt):
@@ -133,7 +134,7 @@ class MomemtumGradOpt(GenericGradOpt):
         self._scale = 1.0
         self._eps = 0.0
 
-    def update_grad(self, grad):
+    def update_grad_dir(self, grad):
         self._corr_grad = self._beta * self._corr_grad + grad
 
 
@@ -144,23 +145,23 @@ class ADAMOptGradOpt(GenericGradOpt):
         super().__init__(*args, **kwargs)
         self._check_param(gamma)
         self._check_param(beta)
-        if gamma < 0 or gamma > 1:
+        if gamma < 0 or gamma >= 1:
             raise RuntimeError("gamma is outside of range [0,1]")
-        if beta < 0 or beta > 1:
+        if beta < 0 or beta >= 1:
             raise RuntimeError("beta is outside of range [0,1]")
         self._gamma = gamma
         self._beta = beta
         self._beta_pow = 1
         self._gamma_pow = 1
 
-    def update_grad(self, grad):
+    def update_grad_dir(self, grad):
         self._beta_pow *= self._beta
 
         self._corr_grad = (1.0 / (1.0 - self._beta_pow)) * (self._beta * self._corr_grad + (1 - self._beta) * grad)
 
-    def update_scale(self, grad):
+    def update_grad_speed(self, grad):
         self._gamma_pow *= self._gamma
-        self._scale = (1.0 / (1.0 - self._gamma_pow)) * (self._gamma * self._corr_grad + (1 - self._gamma) * grad ** 2)
+        self._scale = (1.0 / (1.0 - self._gamma_pow)) * (self._gamma * self._corr_grad + (1 - self._gamma) * abs(grad) ** 2)
 
 
 class SAGAOptGradOpt(GenericGradOpt):
@@ -169,7 +170,7 @@ class SAGAOptGradOpt(GenericGradOpt):
         super().__init__(*args, **kwargs)
         self._grad_memory = np.zeros((self.epoch_size, *self._x_old.size), dtype=self._x_old.dtype)
 
-    def update_grad(self, grad):
+    def update_grad_dir(self, grad):
         cycle = self.iter % self.epoch_size
         self._corr_grad = self._corr_grad - self._grad_memory[cycle] + grad
         self._grad_memory[cycle] = grad
@@ -216,7 +217,7 @@ def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, 
                   metric_call_period=metric_call_period,
                   metrics=metrics,
                   **kwargs)
-
+    opt.idx = 0
     kspace_generator.opt_iterate(opt)
 
     # Goodbye message
