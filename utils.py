@@ -48,6 +48,7 @@ from mri.operators import FFT
 
 
 def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
+
     metrics_fourier_op = FFT(shape=final_k.shape[-2:],
                              n_coils=final_k.shape[0] if final_k.ndim == 3 else 1,
                              mask=final_mask)
@@ -86,5 +87,16 @@ def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
                            }
                }
     return metrics
+
+
+from dataclasses import dataclass, field
+
+@dataclass
+class MetricResult:
+    algo: str = ''
+    algo_param: dict = field(default_factory=dict)
+    reg: str = ''
+    reg_param: dict = field(default_factory=dict)
+
 
 

@@ -5,10 +5,9 @@ from ..operators.cost import SmartGenericCost
 
 from ..optimizers.forward_backward import pogm_online, fista_online
 from ..optimizers.primal_dual import condatvu_online
-from ..optimizers.sgd import gradient_online, VanillaGenericGradOPt, AdaGenericGradOpt, RMSpropGradOpt, MomemtumGradOpt,\
+from ..optimizers.sgd import gradient_online, VanillaGenericGradOPt, AdaGenericGradOpt, RMSpropGradOpt, MomemtumGradOpt, \
     ADAMOptGradOpt, SAGAOptGradOpt
 from ..operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
-
 
 OPTIMIZERS = {
     'condatvu': condatvu_online,
@@ -28,6 +27,8 @@ OPTIMIZERS_TYPE = {
     'fista': 'forward_backward',
 
 }
+SYNTHESIS_OPT = {'pogm': 'synthesis'}
+
 
 class OnlineReconstructor:
     """
@@ -57,7 +58,8 @@ class OnlineReconstructor:
         turns to gradient descent.
 
     """
-    def __init__(self, fourier_op, linear_op, regularizer_op=None, grad_formulation='analysis', verbose=0):
+
+    def __init__(self, fourier_op, linear_op, regularizer_op=None, opt='condatvu', verbose=0):
         self.fourier_op = fourier_op
         self.linear_op = linear_op
         self.verbose = verbose
@@ -67,7 +69,9 @@ class OnlineReconstructor:
             self.prox_op = Identity()
         else:
             self.prox_op = regularizer_op
-
+        assert opt in OPTIMIZERS.keys()
+        self.opt = opt
+        grad_formulation = SYNTHESIS_OPT.get(opt, 'analysis')
         if grad_formulation == 'analysis':
             self.gradient_op = OnlineGradAnalysis(self.fourier_op,
                                                   verbose=self.verbose,
@@ -83,21 +87,18 @@ class OnlineReconstructor:
             raise RuntimeError("Unknown gradient formulation")
         self.grad_formulation = grad_formulation
 
-
-    def reconstruct(self, kspace_gen, x_init=None, optimization_alg='condatvu',
-                    cost_op_kwargs=None, **kwargs):
-
+    def reconstruct(self, kspace_gen, x_init=None, cost_op_kwargs=None, **kwargs):
         if cost_op_kwargs is None:
             cost_op_kwargs = dict()
         cost_op = SmartGenericCost(gradient_op=self.gradient_op,
                                    prox_op=self.prox_op,
                                    verbose=self.verbose >= 20,
-                                   optimizer_type=OPTIMIZERS_TYPE.get(optimization_alg, 'forward_backward'),
+                                   optimizer_type=OPTIMIZERS_TYPE.get(self.opt, 'forward_backward'),
                                    grad_formulation=self.grad_formulation,
                                    linear_op=self.linear_op,
                                    **cost_op_kwargs)
 
-        x_final, costs, *metrics = OPTIMIZERS[optimization_alg](
+        x_final, costs, *metrics = OPTIMIZERS[self.opt](
             kspace_generator=kspace_gen,
             gradient_op=self.gradient_op,
             linear_op=self.linear_op,
@@ -107,7 +108,7 @@ class OnlineReconstructor:
             verbose=self.verbose,
             **kwargs,
         )
-        if optimization_alg == 'condatvu':
+        if self.opt == 'condatvu':
             metrics, y_final = metrics
         else:
             metrics = metrics[0]
