@@ -31,7 +31,6 @@ class Column2DKspaceGenerator(KspaceGenerator):
         if max_iter == 0:
             max_iter = len(self.cols)
         super().__init__(full_kspace, mask, max_iter=max_iter)
-
     def kspace_mask(self, idx):
         mask = np.zeros(self.shape[-2:])
         mask[:, self.cols[:idx]] = 1
@@ -47,7 +46,7 @@ class Column2DKspaceGenerator(KspaceGenerator):
     def __next__(self):
         if self.iter > self._len:
             raise StopIteration
-        idx = min(self.iter, len(self.cols))
+        idx = min(self.iter+1, len(self.cols))
         self.iter += 1
         return self.kspace_mask(idx)
 
