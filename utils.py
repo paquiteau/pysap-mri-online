@@ -15,9 +15,8 @@ def load_data(data_dir, data_idx):
         else:
             print(d)
     kspace_real, real_img, header_file, _ = data
-    # the first element of data is in fact the image.
     kspace = pfft.fftshift(pfft.fft2(kspace_real, axes=[1, 2])).astype("complex128")
-    mask_loc = np.load(os.path.join(data_dir, "cartesian_right_mask.npy"))
+    mask_loc = np.load(os.path.join(data_dir, "mask_quarter.npy"))
     mask = np.zeros(kspace.shape[1:], dtype="int")
     mask[:, mask_loc] = 1
 
