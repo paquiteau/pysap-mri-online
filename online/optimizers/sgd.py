@@ -68,8 +68,7 @@ class GenericGradOpt(SetUp):
         pass
 
     def update_reg(self, factor):
-        self._x_new = self._linear.adj_op(self._prox.op(self._linear.op(self._x_new),
-                                                        extra_factor=factor))
+        self._x_new = self._prox.op(self._x_new, extra_factor=factor)
 
     def get_notify_observers_kwargs(self):
         """Notify observers
@@ -83,7 +82,7 @@ class GenericGradOpt(SetUp):
            The mapping between the iterated variables
 
         """
-        return {'x_new': self._x_new,  'idx': self.idx}
+        return {'x_new': self._linear.adj_op(self._x_new),  'idx': self.idx}
 
     def retrieve_outputs(self):
         """Retrieve outputs
@@ -102,9 +101,8 @@ class VanillaGenericGradOPt(GenericGradOpt):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # no scale factor
-        self._scale = 1.0
-        self._eps = 0.0
-
+        self._speed_grad = 1.0
+        self._eps = 0
 
 class AdaGenericGradOpt(GenericGradOpt):
     def update_grad_speed(self, grad):
@@ -121,7 +119,7 @@ class RMSpropGradOpt(GenericGradOpt):
         self._gamma = gamma
 
     def update_grad_speed(self, grad):
-        self._scale = self._gamma * self._scale + (1 - self._gamma) * abs(grad) ** 2
+        self._speed_grad = self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2
 
 
 class MomemtumGradOpt(GenericGradOpt):
@@ -131,7 +129,7 @@ class MomemtumGradOpt(GenericGradOpt):
         self._check_param(beta)
         self._beta = beta
         # no scale factor
-        self._scale = 1.0
+        self._speed_grad = 1.0
         self._eps = 0.0
 
     def update_grad_dir(self, grad):
@@ -161,7 +159,7 @@ class ADAMOptGradOpt(GenericGradOpt):
 
     def update_grad_speed(self, grad):
         self._gamma_pow *= self._gamma
-        self._scale = (1.0 / (1.0 - self._gamma_pow)) * (self._gamma * self._corr_grad + (1 - self._gamma) * abs(grad) ** 2)
+        self._speed_grad = (1.0 / (1.0 - self._gamma_pow)) * (self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2)
 
 
 class SAGAOptGradOpt(GenericGradOpt):
@@ -197,9 +195,9 @@ def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, 
 
     # Define the initial primal and dual solutions
     if x_init is None:
-        x_init = np.squeeze(np.zeros((gradient_op.fourier_op.n_coils,
+        x_init = linear_op.op(np.squeeze(np.zeros((gradient_op.fourier_op.n_coils,
                                       *gradient_op.fourier_op.shape),
-                                     dtype=np.complex))
+                                     dtype=np.complex)))
     # Welcome message
     if verbose > 0:
         print(" - mu: ", prox_op.weights)
@@ -231,7 +229,7 @@ def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, 
         print("Execution time: ", end - start, " seconds")
         print("-" * 40)
     # Get the final solution
-    x_final = opt._x_new
+    x_final = linear_op.adj_op(opt._x_new)
     if hasattr(cost_op, "cost"):
         costs = cost_op._cost_list
     else:
