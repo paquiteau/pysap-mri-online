@@ -22,7 +22,6 @@ import hashlib
 
 from .set import ExperienceSet
 from .results import Results
-MISSING = object()
 
 
 class ExperienceManager:
