@@ -14,12 +14,17 @@ def load_data(data_dir, data_idx):
             print(d.shape, d.dtype)
         else:
             print(d)
-    kspace_real, real_img, header_file, _ = data
-    kspace = pfft.fftshift(pfft.fft2(kspace_real, axes=[1, 2])).astype("complex128")
-    mask_loc = np.load(os.path.join(data_dir, "mask_quarter.npy"))
-    mask = np.zeros(kspace.shape[1:], dtype="int")
-    mask[:, mask_loc] = 1
 
+    kspace_real, base_real_img, header_file, _ = data
+    kspace = pfft.ifftshift(pfft.fft2(pfft.fftshift(kspace_real, axes=[1, 2]), axes=[1, 2]), axes=[1, 2]).astype("complex128")
+    img_size = base_real_img.shape
+    real_img_size = kspace.shape[1:]
+    mask_loc = np.load(os.path.join(data_dir, "mask_quarter.npy"))
+    mask = np.zeros(real_img_size, dtype="int")
+    mask[:, mask_loc] = 1
+    real_img = np.zeros(real_img_size)+base_real_img[0]
+    real_img[real_img_size[0] // 2 - img_size[0] // 2:real_img_size[0] // 2 + img_size[0] // 2,
+             real_img_size[1] // 2 - img_size[1] // 2:real_img_size[1] // 2 + img_size[1] // 2] = base_real_img
     return kspace, real_img, mask_loc, mask
 
 

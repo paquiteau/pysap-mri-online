@@ -83,8 +83,10 @@ class ExperienceSet(Set, Hashable):
                     else:
                         sub = sub2
                 else:
-                    raise KeyError(f'{sub} has no accessible attribute using {kw}')
-
+                    if mode != 'loose_and':
+                        raise KeyError(f'{sub} has no accessible attribute using {kw}')
+                    else:
+                        return None
             return allowed_op[op](sub, val)
 
         final_qs = ExperienceSet()
@@ -138,7 +140,7 @@ class ExperienceSet(Set, Hashable):
         qs = self.filter(**kwargs)
         title = key_val(**qs._discrimininant_param(disc=False))
         if not qs:
-            raise EmptySetError(f'No Element matching {kwargs}')
+            return None
         for attr in attrs:
             plt.figure()
             df = qs.to_dataframe(attr=attr)

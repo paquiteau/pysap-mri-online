@@ -6,7 +6,7 @@ import numpy as np
 import scipy as sp
 
 from mri.operators.base import OperatorBase
-from numba import njit, objmode, prange, int64, complex128
+from numba import njit, vectorize, guvectorize, prange, int64, complex128
 
 
 class ColumnFFT(OperatorBase):
@@ -48,16 +48,16 @@ class ColumnFFT(OperatorBase):
             n_coils = 1
         self.n_coils = n_coils
         self.n_jobs = n_jobs
-        self._line_index = line_index
-        self._exp_f = complex(0, 0)
-        self._exp_b = complex(0, 0)
+        self._exp_f = np.zeros(shape[1], dtype=complex)
+        self._exp_b = np.zeros(shape[1], dtype=complex)
+        self.line_index = line_index
 
     @property
     def line_index(self):
         return self._line_index
 
     @line_index.setter
-    def line_index(self, val:int , shift=True):
+    def line_index(self, val: int, shift=True):
         if shift:
             val = (self.shape[1] // 2 + val) % self.shape[1]
         if val >= self.shape[1]:
@@ -65,25 +65,17 @@ class ColumnFFT(OperatorBase):
         self._line_index = val
         cos = np.cos(2 * np.pi * val / self.shape[1])
         sin = np.sin(2 * np.pi * val / self.shape[1])
-        self._exp_f = cos - 1j * sin
-        self._exp_b = cos + 1j * sin
+        self.exp_f = cos - 1j * sin
+        self.exp_b = cos + 1j * sin
+        self._exp_f = (1/np.sqrt(self.shape[1]))*self.exp_f**np.arange(self.shape[1])
+        self._exp_b = (1/np.sqrt(self.shape[1]))*self.exp_b**np.arange(self.shape[1])
 
     @staticmethod
-    @njit(complex128[:](complex128[:, :], complex128), parallel=True)
-    def __fft15(img: np.array, exp_k: complex):
-        shape = np.shape(img)
-        column = np.zeros(shape[0], dtype=np.complex128)
-        for j in prange(shape[0]):
-            factor = 1 / np.sqrt(shape[1])
-            for i in prange(shape[1]):
-                column[j] += img[j, i] * factor
-                factor *= exp_k
-        with objmode(out="complex128[:]"):
-            out = sp.fft.fft(column, norm="ortho")
-        return out
-
-    def _op(self, img):
-        return sp.fft.ifftshift(self.__fft15(sp.fft.fftshift(img), self._exp_f))
+    @guvectorize(["complex128[:], complex128[:], complex128"], "(n),(n)->()", nopython=True,  target='parallel')
+    def __dft(row, exp_k, out):
+        out = 0.j
+        for i in range(len(row)):
+            out += row[i] * exp_k[i]
 
     def op(self, img):
         """This method calculates the masked 2D Fourier transform of a 2d or 3D image.
@@ -100,25 +92,21 @@ class ColumnFFT(OperatorBase):
             masked Fourier transform of the input image. For multichannel
             images the coils dimension is put first
         """
-        if self.n_coils == 1:
-            return self._op(img)
-        return np.apply_along_axis(self._op, 0, img)
+        # if self.n_coils == 1:
+        #     return self._op(img)
+        # return np.array(self._op(img_slice) for img_slice in img)
+        return sp.fft.ifftshift(sp.fft.fft(self.__dft(sp.fft.fftshift(img,
+                                                                      axes=[-1, -2]),
+                                                      self._exp_f),
+                                           axis=-1,
+                                           norm='ortho'),
+                                axes=[-1])
 
     @staticmethod
-    @njit(complex128[:,:](complex128[:], int64, complex128), parallel=True)
-    def __ifft15(y: np.array, dim: int, exp_b: complex) -> np.array:
-        img = np.zeros((dim, y.size), dtype=np.complex128)
-        for j in prange(y.size):
-            u = 1 / np.sqrt(y.size)
-            for i in prange(dim):
-                img[j, i] = y[j] * u
-                u *= exp_b
-        return img
-
-    def _adj_op(self, x):
-        return sp.fft.fftshift(self.__ifft15(
-            sp.fft.ifft(sp.fft.ifftshift(x), norm="ortho"), self.shape[1], self._exp_b
-        ))
+    @guvectorize(["complex128, complex128[:], complex128[:]"], "(),(n)->(n)", target='parallel',nopython=True)
+    def __idft(y, exp_b, out):
+        for i in range(len(exp_b)):
+            out[i] = y * exp_b[i]
 
     def adj_op(self, x):
         """This method calculates inverse masked Fourier transform of a ND
@@ -136,12 +124,17 @@ class ColumnFFT(OperatorBase):
             inverse ND discrete Fourier transform of the input coefficients.
             For multichannel images the coils dimension is put first
         """
-        if self.n_coils == 1:
-            return self._adj_op(x)
-        return np.apply_along_axis(self._adj_op, 0, x)
+        # if self.n_coils == 1:
+        #     return self._adj_op(x)
+        # return np.array(self._op(x_slice) for x_slice in x)
+
+        return sp.fft.fftshift(self.__idft(sp.fft.ifft(sp.fft.ifftshift(x,
+                                                                        axes=[-1]),
+                                                       norm="ortho"),
+                                           self._exp_b),
+                               axes=[-1, -2])
 
     @staticmethod
-    @njit(complex128[:,:](complex128[:,:], complex128, complex128), parallel=True)
     def __ifftfft15(img, exp_f, exp_b):
         shape = np.shape(img)
         img_out = np.zeros_like(img, dtype=np.complex128)
@@ -167,4 +160,5 @@ class ColumnFFT(OperatorBase):
         """ Equivalent to self.adj_op(self.op(img)), but faster """
         if self.n_coils == 1:
             return self._auto_adj_op(img)
-        return np.apply_along_axis(self._auto_adj_op, 0, img)
+        return np.array(self._auto_adj_op(img_slice) for img_slice in img)
+

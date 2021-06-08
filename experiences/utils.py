@@ -1,5 +1,5 @@
 from collections import MutableMapping
-
+import numpy as np
 
 allowed_op = {
     'eq': lambda x, y: x == y,
@@ -26,6 +26,9 @@ def flatten_dict(d, parent_key='', sep='__'):
 
 
 def key_val(separator=', ', **kwargs):
+    """ return a string with format key=value,
+       and also applying formating on number if needed.
+    """
     st = ""
     for k, v in kwargs.items():
         if v is None:
@@ -34,15 +37,15 @@ def key_val(separator=', ', **kwargs):
             st += v
         else:
             st += f'{k}='
-            if hasattr(v, '__len__'):
-                st += str(v)
-            elif type(v) is float:
-                if abs(v) > 1000 or abs(v) < 1e-3:
+            if isinstance(v,float) or isinstance(v, np.floating):
+                if abs(v) > 1000 or abs(v) < 1e-2:
                     st += f'{v:.2e}'
                 else:
                     st += f'{v:.2f}'
             elif type(v) is int:
                 st += f'{v}'
+            elif hasattr(v, '__str__'):
+                st += str(v)
         st += separator
     if separator:
         st = st[:-len(separator)]

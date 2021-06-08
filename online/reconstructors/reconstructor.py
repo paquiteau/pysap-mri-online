@@ -27,7 +27,14 @@ OPTIMIZERS_TYPE = {
     'fista': 'forward_backward',
 
 }
-SYNTHESIS_OPT = {'pogm': 'synthesis'}
+SYNTHESIS_OPT = {'condat': 'analysis',
+                 'pogm': 'synthesis',
+                 'fista': 'synthesis',
+                 'adam': 'synthesis',
+                 'rmsprop': 'synthesis',
+                 'adagrad': 'synthesis',
+                 'momentum': 'synthesis',
+                 'vanilla': 'synthesis'}
 
 
 class OnlineReconstructor:

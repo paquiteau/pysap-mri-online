@@ -11,10 +11,3 @@ class Results:
         if ax is None:
             fig, ax = plt.subplots()
         ax.plot(self.__getattribute__(attr))
-
-    def good_behavior(self, metric, decrease=True, window=3):
-        sr = getattr(self, metric)
-        if decrease:
-            return sr.iloc[0] > sr.iloc[-1]
-        else:
-            return sr.iloc[0] < sr.iloc[-1]
