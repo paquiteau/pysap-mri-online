@@ -9,6 +9,53 @@ from mri.operators.base import OperatorBase
 from numba import njit, vectorize, guvectorize, prange, int64, complex128
 
 
+def numba_dft(row, exp_k, out):
+    out[:] = 0.j
+    for i in range(len(row)):
+        out += row[i] * exp_k[i]
+
+
+def numba_idft(y, exp_b, out):
+    for i in range(len(exp_b)):
+        out[i] = y * exp_b[i]
+
+
+def numba_njit_dft_single(img, exp_k):
+    shape = np.shape(img)
+    column = np.zeros(shape[0], dtype=np.complex128)
+    for j in prange(shape[0]):
+        for i in prange(shape[1]):
+            column[j] += img[j, i] * exp_k[i]
+    return column
+
+
+def numba_njit_dft_multi(img, exp_k):
+    shape = np.shape(img)
+    columns = np.zeros((shape[0], shape[1]), dtype=np.complex128)
+    for l in prange(shape[0]):
+        for j in prange(shape[1]):
+            for i in prange(shape[2]):
+                columns[l, j] += img[l, j, i] * exp_k[i]
+    return columns
+
+
+def numba_njit_idft_single(y: np.array, exp_b) -> np.array:
+    img = np.zeros((y.size, exp_b.size), dtype=np.complex128)
+    for j in prange(y.size):
+        for i in prange(exp_b.size):
+            img[j, i] = y[j] * exp_b[i]
+    return img
+
+
+def numba_njit_idft_multi(y: np.array, exp_b) -> np.array:
+    img = np.zeros((*y.shape, exp_b.size), dtype=np.complex128)
+    for l in prange(y.shape[0]):
+        for j in prange(y.shape[1]):
+            for i in prange(exp_b.size):
+                img[l, j, i] = y[l, j] * exp_b[i]
+    return img
+
+
 class ColumnFFT(OperatorBase):
     """
     Fourier operator optimized to compute the 2D FFT + selection of various line of the kspace.
@@ -26,7 +73,7 @@ class ColumnFFT(OperatorBase):
         Number of parallel workers to use for fourier computation
     """
 
-    def __init__(self, shape, n_coils=1, line_index=0, n_jobs=1):
+    def __init__(self, shape, line_index=0,n_coils=1, platform='numpy'):
         """Initilize the 'FFT' class.
 
         Parameters
@@ -42,15 +89,34 @@ class ColumnFFT(OperatorBase):
         n_jobs: int, default 1
             Number of parallel workers to use for fourier computation
             All cores are used if -1
+        package: str
+            The plateform on which to run the computation. can be either 'numpy', 'numba', 'cupy'
         """
         self.shape = shape
         if n_coils <= 0:
             n_coils = 1
         self.n_coils = n_coils
-        self.n_jobs = n_jobs
         self._exp_f = np.zeros(shape[1], dtype=complex)
         self._exp_b = np.zeros(shape[1], dtype=complex)
         self.line_index = line_index
+        if platform == 'numba' and n_coils > 1:
+            self._dft = njit(complex128[:, :](complex128[:, :, :], complex128[:]), parallel=True)(
+                numba_njit_dft_multi)
+            self._idft = njit(complex128[:, :, :](complex128[:, :], complex128[:]), parallel=True)(
+                numba_njit_idft_multi)
+        elif platform == 'numba':
+            self._dft = njit(complex128[:](complex128[:, :], complex128[:]), parallel=True)(numba_njit_dft_single)
+            self._idft = njit(complex128[:, :](complex128[:], complex128[:]), parallel=True)(numba_njit_idft_single)
+        elif platform == 'gufunc':
+            self._dft = guvectorize(["complex128[:], complex128[:], complex128[:]"], "(n),(n)->()", nopython=True,
+                                    target='cpu')(numba_dft)
+            self._idft = guvectorize(["complex128, complex128[:], complex128[:]"], "(),(n)->(n)", target='parallel',
+                                     nopython=True)(numba_idft)
+        elif platform == 'numpy':
+            self._dft = np.dot
+            self._idft = np.multiply.outer
+        else:
+            raise NotImplementedError(f"platform '{platform}' is not supported")
 
     @property
     def line_index(self):
@@ -67,15 +133,8 @@ class ColumnFFT(OperatorBase):
         sin = np.sin(2 * np.pi * val / self.shape[1])
         self.exp_f = cos - 1j * sin
         self.exp_b = cos + 1j * sin
-        self._exp_f = (1/np.sqrt(self.shape[1]))*self.exp_f**np.arange(self.shape[1])
-        self._exp_b = (1/np.sqrt(self.shape[1]))*self.exp_b**np.arange(self.shape[1])
-
-    @staticmethod
-    @guvectorize(["complex128[:], complex128[:], complex128"], "(n),(n)->()", nopython=True,  target='parallel')
-    def __dft(row, exp_k, out):
-        out = 0.j
-        for i in range(len(row)):
-            out += row[i] * exp_k[i]
+        self._exp_f = (1 / np.sqrt(self.shape[1])) * self.exp_f ** np.arange(self.shape[1])
+        self._exp_b = (1 / np.sqrt(self.shape[1])) * self.exp_b ** np.arange(self.shape[1])
 
     def op(self, img):
         """This method calculates the masked 2D Fourier transform of a 2d or 3D image.
@@ -95,18 +154,12 @@ class ColumnFFT(OperatorBase):
         # if self.n_coils == 1:
         #     return self._op(img)
         # return np.array(self._op(img_slice) for img_slice in img)
-        return sp.fft.ifftshift(sp.fft.fft(self.__dft(sp.fft.fftshift(img,
-                                                                      axes=[-1, -2]),
-                                                      self._exp_f),
+        return sp.fft.ifftshift(sp.fft.fft(self._dft(sp.fft.fftshift(img,
+                                                                     axes=[-1, -2]),
+                                                     self._exp_f),
                                            axis=-1,
                                            norm='ortho'),
                                 axes=[-1])
-
-    @staticmethod
-    @guvectorize(["complex128, complex128[:], complex128[:]"], "(),(n)->(n)", target='parallel',nopython=True)
-    def __idft(y, exp_b, out):
-        for i in range(len(exp_b)):
-            out[i] = y * exp_b[i]
 
     def adj_op(self, x):
         """This method calculates inverse masked Fourier transform of a ND
@@ -128,37 +181,9 @@ class ColumnFFT(OperatorBase):
         #     return self._adj_op(x)
         # return np.array(self._op(x_slice) for x_slice in x)
 
-        return sp.fft.fftshift(self.__idft(sp.fft.ifft(sp.fft.ifftshift(x,
-                                                                        axes=[-1]),
-                                                       norm="ortho"),
-                                           self._exp_b),
+        return sp.fft.fftshift(self._idft(sp.fft.ifft(sp.fft.ifftshift(x,
+                                                                       axes=[-1]),
+                                                      axis=-1,
+                                                      norm="ortho"),
+                                          self._exp_b),
                                axes=[-1, -2])
-
-    @staticmethod
-    def __ifftfft15(img, exp_f, exp_b):
-        shape = np.shape(img)
-        img_out = np.zeros_like(img, dtype=np.complex128)
-        y = 0.0j
-        for j in prange(shape[0]):
-            y = 0.0j
-            u = 1 / np.sqrt(shape[1])
-            for i in prange(shape[1]):
-                y += img[j, i] * u
-                u *= exp_f
-            u = 1 / np.sqrt(shape[1])
-            for i in prange(shape[1]):
-                img_out[j, i] = y * u
-                u *= exp_b
-        return img_out
-
-    def _auto_adj_op(self, img):
-        return sp.fft.fftshift(
-            self.__ifftfft15(sp.fft.fftshift(img), self._exp_f, self._exp_b)
-        )
-
-    def auto_adj_op(self, img):
-        """ Equivalent to self.adj_op(self.op(img)), but faster """
-        if self.n_coils == 1:
-            return self._auto_adj_op(img)
-        return np.array(self._auto_adj_op(img_slice) for img_slice in img)
-
