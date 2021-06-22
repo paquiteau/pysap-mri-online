@@ -4,10 +4,12 @@ Various utility classes and function for the optimizers
 from modopt.opt.cost import costObj
 import numpy as np
 
+
 class SmartGenericCost(costObj):
     """ Define the Generic cost function, based on the cost function of the
     gradient operator and the cost function of the proximity operator.
     """
+
     def __init__(self, gradient_op, prox_op, initial_cost=1e6,
                  tolerance=1e-4, cost_interval=None, test_range=4,
                  optimizer_type='forward_backward',

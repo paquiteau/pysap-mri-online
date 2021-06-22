@@ -82,7 +82,7 @@ class GenericGradOpt(SetUp):
            The mapping between the iterated variables
 
         """
-        return {'x_new': self._linear.adj_op(self._x_new),  'idx': self.idx}
+        return {'x_new': self._linear.adj_op(self._x_new), 'idx': self.idx}
 
     def retrieve_outputs(self):
         """Retrieve outputs
@@ -97,6 +97,7 @@ class GenericGradOpt(SetUp):
             metrics[obs.name] = obs.retrieve_metrics()
         self.metrics = metrics
 
+
 class VanillaGenericGradOPt(GenericGradOpt):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -104,7 +105,9 @@ class VanillaGenericGradOPt(GenericGradOpt):
         self._speed_grad = 1.0
         self._eps = 0
 
+
 class AdaGenericGradOpt(GenericGradOpt):
+
     def update_grad_speed(self, grad):
         self._speed_grad += abs(grad) ** 2
 
@@ -159,7 +162,8 @@ class ADAMOptGradOpt(GenericGradOpt):
 
     def update_grad_speed(self, grad):
         self._gamma_pow *= self._gamma
-        self._speed_grad = (1.0 / (1.0 - self._gamma_pow)) * (self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2)
+        self._speed_grad = (1.0 / (1.0 - self._gamma_pow)) * (
+                    self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2)
 
 
 class SAGAOptGradOpt(GenericGradOpt):
@@ -196,8 +200,8 @@ def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, 
     # Define the initial primal and dual solutions
     if x_init is None:
         x_init = linear_op.op(np.squeeze(np.zeros((gradient_op.fourier_op.n_coils,
-                                      *gradient_op.fourier_op.shape),
-                                     dtype=np.complex)))
+                                                   *gradient_op.fourier_op.shape),
+                                                  dtype=np.complex)))
     # Welcome message
     if verbose > 0:
         print(" - mu: ", prox_op.weights)

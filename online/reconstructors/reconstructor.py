@@ -59,7 +59,7 @@ class OnlineReconstructor:
         have 2 functions, op(x) and adj_op(coeff) which implements the
         operator and adjoint operator. For wavelets, this can be object of
         class WaveletN or WaveletUD2 from mri.operators
-    regularizer_op: operator, (optional default None)
+    regularizer_op: object, (optional default None)
         Defines the regularization operator for the regularization function H.
         If None, the  regularization chosen is Identity and the optimization
         turns to gradient descent.

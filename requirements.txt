@@ -1,10 +1,8 @@
-matplotlib==3.3.4
-modopt==1.4.4
-numpy==1.20.1
+matplotlib~=3.4.2
+modopt~=1.5.1
+numpy~=1.19.5
 scikit-image==0.18.1
-tqdm==4.59.0
+tqdm~=4.61.1
 numba~=0.53.1
-pandas~=1.2.3
--e git+git@github.com:paquiteau/pysap-mri.git
--e python-pysap
-
+scipy~=1.5.4
+PyYAML~=5.4.1
