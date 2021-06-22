@@ -4,21 +4,22 @@ import os
 import scipy.fftpack as pfft
 import matplotlib.pyplot as plt
 
+from online.metrics import psnr_ssos, ssim_ssos
+from online.operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
+from mri.operators import FFT
 
-def load_data(data_dir, data_idx):
+
+def load_data(data_dir, data_idx, monocoil=False):
     # data is a list of 5-tuple:
 
     data = np.load(os.path.join(data_dir, "all_data_full.npy"), allow_pickle=True)[data_idx]
-    for d in data:
-        if isinstance(d, np.ndarray) and len(d.shape) > 1:
-            print(d.shape, d.dtype)
-        else:
-            print(d)
 
     kspace_real, base_real_img, header_file, _ = data
-    kspace = pfft.ifftshift(pfft.fft2(pfft.fftshift(kspace_real, axes=[1, 2]), axes=[1, 2]), axes=[1, 2]).astype("complex128")
+    if monocoil:
+        kspace_real = np.sum(kspace_real**2, axis=0)
+    kspace = pfft.ifftshift(pfft.fft2(pfft.fftshift(kspace_real, axes=[-1, -2]), axes=[-1, -2]), axes=[-1, -2]).astype("complex128")
     img_size = base_real_img.shape
-    real_img_size = kspace.shape[1:]
+    real_img_size = kspace.shape[-2:]
     mask_loc = np.load(os.path.join(data_dir, "mask_quarter.npy"))
     mask = np.zeros(real_img_size, dtype="int")
     mask[:, mask_loc] = 1
@@ -44,11 +45,6 @@ def implot(array, title=None, colorbar=None, axis=False):
     if not axis:
         plt.axis("off")
     plt.show()
-
-
-from online.metrics import psnr_ssos, ssim_ssos
-from online.operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
-from mri.operators import FFT
 
 
 def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
@@ -90,17 +86,7 @@ def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
                            'cst_kwargs': dict(),
                            }
                }
-    return metrics
-
-
-from dataclasses import dataclass, field
-
-@dataclass
-class MetricResult:
-    algo: str = ''
-    algo_param: dict = field(default_factory=dict)
-    reg: str = ''
-    reg_param: dict = field(default_factory=dict)
-
-
-
+    metrics_config = {'metrics': metrics,
+                      'cost_op_kwargs': {"cost_interval": 1},
+                      'metric_call_period': 1}
+    return metrics_config

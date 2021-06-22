@@ -18,8 +18,6 @@ Experience.objects.filter(and=True, 'alg="condat"', 'reg_kwargs["weights"]>1e-5'
 import os
 import pickle
 import functools
-import hashlib
-
 from .set import ExperienceSet
 from .results import Results
 
@@ -54,6 +52,7 @@ class ExperienceManager:
             return False
 
     def flush(self):
+        del self._theset
         self._theset = ExperienceSet()
 
     def create(self, *args, **kwargs):
@@ -72,20 +71,11 @@ class ExperienceManager:
         return self._theset.filter_plot(*args, **kwargs)
 
 
-class ExperienceRealization:
+class BaseExperience:
     objects = ExperienceManager()
     save_folder = ''
 
-    def __init__(self, online: int, linear_cls='',
-                 reg_cls='', reg_kwargs=None, opt='',
-                 alg_kwargs=None):
-        self.online = online
-        self.linear_cls = linear_cls
-        self.reg_cls = reg_cls
-        self.reg_kwargs = reg_kwargs
-        self.opt = opt
-        self.alg_kwargs = alg_kwargs
-
+    def __init__(self):
         # add to the Manager:
         if not len(self.objects):
             self.objects.set_attributes(self)
@@ -109,15 +99,11 @@ class ExperienceRealization:
     def has_saved_results(self):
         return os.path.exists(self.save_file)
 
-    @property
-    def st(self):
-        st = str(self.online) + self.linear_cls \
-             + self.reg_cls + repr(self.reg_kwargs) \
-             + self.opt + repr(self.alg_kwargs)
-        return st
+    def id(self):
+        raise NotImplementedError
 
     def __hash__(self):
-        return int(hashlib.md5(self.st.encode()).hexdigest(), 16)
+        return hash(self.id())
 
     def __repr__(self):
-        return self.st
+        return self.id

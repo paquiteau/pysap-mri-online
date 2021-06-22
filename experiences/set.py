@@ -8,8 +8,10 @@ from .utils import key_val, flatten_dict, allowed_op
 
 MISSING = object()
 
+
 class EmptySetError(Exception):
     pass
+
 
 class ExperienceSet(Set, Hashable):
     """
@@ -19,23 +21,22 @@ class ExperienceSet(Set, Hashable):
 
     wrapped_methods = ('difference',
                        'intersection',
-                       'symetric_difference',
+                       'symmetric_difference',
                        'union',
                        'copy')
 
     def __new__(cls, iterable=None):
-        selfobj = super(ExperienceSet, cls).__new__(ExperienceSet)
-        selfobj._set = set() if iterable is None else set(iterable)
+        obj = super(ExperienceSet, cls).__new__(ExperienceSet)
+        obj._set = set() if iterable is None else set(iterable)
         for method_name in cls.wrapped_methods:
-            setattr(selfobj, method_name, cls._wrap_method(method_name, selfobj))
-        return selfobj
+            setattr(obj, method_name, cls._wrap_method(method_name, obj))
+        return obj
 
     @classmethod
     def _wrap_method(cls, method_name, obj):
         def method(*args, **kwargs):
             result = getattr(obj._set, method_name)(*args, **kwargs)
             return ExperienceSet(result)
-
         return method
 
     def __getattr__(self, attr):
@@ -59,12 +60,31 @@ class ExperienceSet(Set, Hashable):
         s += f'):{len(self)} Elements'
         return s
 
-    def filter(self, **kwargs):
-        mode = kwargs.pop('mode', 'loose_and')
+    def filter(self, mode='loose_and', **kwargs):
+        """
+        Parameters
+        ----------
+        kwargs: key=values pairs, `key` defines a filter in the spirit of the Django framework e.g:
+        results__psnr__gt = 1 return all element of the set where self.results['psnr']  > 1
+        eta = 1e-1 return all element of the set where self.eta = 1e-1
+        More generally a filter key is of the form:
+        attr1__attr2__[..]__op
+        if op is not provided, then equality test `eq` is assumed.
+        A filter condition return either True, False or None if the test could have not been perform.
+        mode: str
+        can be either 'or', 'and' or 'loose_and', default to 'loose_and'.
+        'or': at least one filter must match,
+        'and' : every condition must match, and no fail is allowed,
+        'loose_and': every condition must match, but ignore if a filter return None
+        Returns
+        -------
+            An ExperienceSet whose element verify the condition set by the filters.
+        """
         if len(kwargs) == 0:
             return ExperienceSet(self)
 
-        def match_filter(sub, kw, val):
+        def _match_filter(sub, kw, val):
+            """ check if a subject `sub` verify the condition sub.kw = val"""
             _kw = kw.split('__')
             if _kw[-1] not in allowed_op:
                 op = 'eq'
@@ -72,7 +92,7 @@ class ExperienceSet(Set, Hashable):
                 op = _kw.pop()
             while _kw:
                 __kw = _kw.pop(0)
-                if hasattr(sub, __kw):
+                if hasattr(sub, __kw): # attribute/property access
                     sub = getattr(sub, __kw)
                     if inspect.ismethod(sub):
                         sub = sub()
@@ -93,7 +113,7 @@ class ExperienceSet(Set, Hashable):
         for sub in ExperienceSet(self):
             val_test = False
             for kw in kwargs:
-                val_test = match_filter(sub, kw, kwargs[kw])
+                val_test = _match_filter(sub, kw, kwargs[kw])
                 if mode == 'or' and val_test is True:
                     break
                 if mode == 'and' and val_test is not True:
@@ -150,11 +170,4 @@ class ExperienceSet(Set, Hashable):
                          xlabel='index',
                          sort_columns=True)
             ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-        return qs
-
-    def has_good_behavior(self, metric, decrease=True):
-        qs = ExperienceSet()
-        for exp in self:
-            if exp.results.good_behavior(metric, decrease=decrease):
-                qs.add(exp)
         return qs
