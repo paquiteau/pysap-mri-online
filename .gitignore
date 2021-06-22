@@ -1,6 +1,6 @@
 data/
-results/
 plot/
+results/simuls/
 references/
 *.npy
 online-notebook/.ipynb_checkpoints/
