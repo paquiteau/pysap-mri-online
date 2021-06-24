@@ -105,8 +105,6 @@ def get_operators(kspace_data, mask_loc, mask, fourier_type=1, regularisation=No
             prox_op = OWL(**regularisation, n_coils=n_coils, bands_shape=linear_op.coeffs_shape)
         elif reg_cls == 'IdentityProx':
             prox_op = IdentityProx()
-            linear_op = Identity()
-            raise NotImplementedError
     return kspace_generator, fourier_op, linear_op, prox_op
 
 
@@ -133,14 +131,17 @@ FORCE_COMPUTE = False
 DRY_MODE = False
 if __name__ == '__main__':
 
-    filename = 'results/grid_config.yml'
-    with open(filename) as f:
+    with open('results/grid_config.yml') as f:
         cfg = yaml.load(f, Loader=loader)
         setups = develop2(listify(cfg))
     with open('results/tested_config.yml') as f:
         tested_cfg = yaml.load(f, Loader=loader)
         tested_cfg = [None] if tested_cfg is None else tested_cfg
-    hash_list = list(map(get_hash, tested_cfg))
+    with open('results/failed_config.yml') as f:
+        failed_cfg = yaml.load(f, Loader=loader)
+        failed_cfg = [None] if failed_cfg is None else tested_cfg
+
+    hash_list = list(map(get_hash, tested_cfg + failed_cfg))
     pprint(json.dumps(tested_cfg[0],sort_keys=True))
     print(hash_list)
     metrics_config = dict()
@@ -169,6 +170,7 @@ if __name__ == '__main__':
                 xf, costs, metrics_results = online_pb.reconstruct(ksp, **solver, **metrics_config)
             except:
                 print(" -- Failed -- ")
+                e.config2file('results/failed_config.yml')
                 continue
             metrics_results['cost'] = {'index': np.arange(len(costs)), 'values': costs}
             e.save_results(metrics_results)
