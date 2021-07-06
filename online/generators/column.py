@@ -80,15 +80,3 @@ class DataOnlyKspaceGenerator(PartialColumn2DKspaceGenerator):
         kspace = self.kspace[..., col]
         return kspace, col
 
-    def opt_iterate(self, opt, reset=True):
-        if reset:
-            self.reset()
-        for (kspace, col) in tqdm(self):
-            opt.idx += 1
-            opt._grad.obs_data = kspace
-            opt._grad.fourier_op.line_index = col
-            opt._update()
-            if opt.metrics and opt.metric_call_period is not None:
-                if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
-                    opt._compute_metrics()
-        opt.retrieve_outputs()

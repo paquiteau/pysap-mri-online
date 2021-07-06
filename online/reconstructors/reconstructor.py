@@ -1,11 +1,13 @@
 import warnings
 import numpy as np
 from modopt.opt.linear import Identity
+from modopt.opt.proximity import IdentityProx
 from ..operators.cost import SmartGenericCost
 
 from ..optimizers.forward_backward import pogm_online, fista_online
 from ..optimizers.primal_dual import condatvu_online
-from ..optimizers.sgd import gradient_online, VanillaGenericGradOPt, AdaGenericGradOpt, RMSpropGradOpt, MomemtumGradOpt, \
+from ..optimizers.online_grad import gradient_online
+from ..optimizers.gradescent import VanillaGenericGradOPt, AdaGenericGradOpt, RMSpropGradOpt, MomemtumGradOpt, \
     ADAMOptGradOpt, SAGAOptGradOpt
 from ..operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
 
@@ -73,7 +75,8 @@ class OnlineReconstructor:
         if regularizer_op is None:
             warnings.warn("The prox_op is not set. Setting to identity. "
                           "Note that optimization is just a gradient descent.")
-            self.prox_op = Identity()
+            self.prox_op = IdentityProx()
+            self.linear_op = Identity()
         else:
             self.prox_op = regularizer_op
         assert opt in OPTIMIZERS.keys()
@@ -105,7 +108,7 @@ class OnlineReconstructor:
                                    linear_op=self.linear_op,
                                    **cost_op_kwargs)
 
-        x_final, costs, *metrics = OPTIMIZERS[self.opt](
+        return OPTIMIZERS[self.opt](
             kspace_generator=kspace_gen,
             gradient_op=self.gradient_op,
             linear_op=self.linear_op,
@@ -113,11 +116,4 @@ class OnlineReconstructor:
             cost_op=cost_op,
             x_init=x_init,
             verbose=self.verbose,
-            **kwargs,
-        )
-        if self.opt == 'condatvu':
-            metrics, y_final = metrics
-        else:
-            metrics = metrics[0]
-        costs = np.array(costs)
-        return x_final, costs, metrics
+            **kwargs,)

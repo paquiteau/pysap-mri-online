@@ -50,16 +50,26 @@ class KspaceGenerator:
     def reset(self):
         self.iter = 0
 
-    def opt_iterate(self, opt, reset=True):
-        if reset:
-            self.reset()
-        for (kspace, mask) in tqdm(self):
-            opt.idx += 1
-            opt._grad.obs_data = kspace
-            opt._grad.fourier_op.mask = mask
-            opt._update()
-            if opt.metrics and opt.metric_call_period is not None:
-                if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
-                    opt._compute_metrics()
+    def opt_iterate(self, opt, reset=True, run=1, estimate_call_period=None):
+        if estimate_call_period is not None:
+            x_new_list = []
+        for _ in range(run):
+            if reset:
+                self.reset()
+            for (kspace, col) in tqdm(self):
+                opt.idx += 1
+                opt._grad.obs_data = kspace
+                opt._grad.fourier_op.mask = col
+                opt._update()
+                if opt.metrics and opt.metric_call_period is not None:
+                    if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
+                        opt._compute_metrics()
+                if estimate_call_period is not None:
+                    if opt.idx % estimate_call_period == 0 or opt.idx == (self._len - 1):
+                        x_new_list.append(opt.get_notify_observers_kwargs()['x_new'])
         opt.retrieve_outputs()
+        if estimate_call_period is not None:
+            return x_new_list
+        return None
+
 
