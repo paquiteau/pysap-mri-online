@@ -5,3 +5,5 @@ references/
 *.npy
 online-notebook/.ipynb_checkpoints/
 .ipynb_checkpoints/
+__pycache__
+.idea
