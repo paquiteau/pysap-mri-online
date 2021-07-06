@@ -47,7 +47,7 @@ def implot(array, title=None, colorbar=None, axis=False):
     plt.show()
 
 
-def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
+def create_cartesian_metrics(online_pb, real_img, final_mask, final_k, estimates=None):
 
     metrics_fourier_op = FFT(shape=final_k.shape[-2:],
                              n_coils=final_k.shape[0] if final_k.ndim == 3 else 1,
@@ -88,5 +88,7 @@ def create_cartesian_metrics(online_pb, real_img, final_mask, final_k):
                }
     metrics_config = {'metrics': metrics,
                       'cost_op_kwargs': {"cost_interval": 1},
-                      'metric_call_period': 1}
+                      'metric_call_period': 1,
+                      'estimate_call_period': estimates,
+                      }
     return metrics_config
