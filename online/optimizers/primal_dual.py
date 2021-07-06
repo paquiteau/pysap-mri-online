@@ -1,14 +1,20 @@
-import time
 import numpy as np
 
 # Third party import
 from modopt.opt.algorithms import Condat
 from modopt.opt.linear import Identity
 
+from .base import online_algorithm
+
+
 def condatvu_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
                     max_nb_of_iter=150, tau=None, sigma=None, relaxation_factor=1.0,
                     x_init=None, std_est=None,
-                    nb_of_reweights=1, metric_call_period=5, metrics=None, verbose=0):
+                    nb_run=1,
+                    metric_call_period=5,
+                    metrics=None,
+                    estimate_call_period=None,
+                    verbose=0,):
     """ The Condat-Vu sparse reconstruction with reweightings.
 
     Parameters
@@ -66,7 +72,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
     # Check inputs
     if metrics is None:
         metrics = dict()
-    start = time.perf_counter()
 
     # Define the initial primal and dual solutions
     if x_init is None:
@@ -104,7 +109,6 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         if hasattr(linear_op, "nb_scale"):
             print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
         print(" - max iterations: ", max_nb_of_iter)
-        print(" - number of reweights: ", nb_of_reweights)
         print(" - primal variable shape: ", primal.shape)
         print(" - dual variable shape: ", dual.shape)
         print("-" * 40)
@@ -129,32 +133,5 @@ def condatvu_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         auto_iterate=False,
         metric_call_period=metric_call_period,
         metrics=metrics)
-    opt.idx = 0
-    cost_op = opt._cost_func
 
-    # Perform the first reconstruction
-    if verbose > 0:
-        print("Starting optimization...")
-
-    kspace_generator.opt_iterate(opt)
-
-    # Goodbye message
-    end = time.perf_counter()
-    if verbose > 0:
-        if hasattr(cost_op, "cost"):
-            print(" - final iteration number: ", cost_op._iteration)
-            print(" - final cost value: ", cost_op.cost)
-        print(" - converged: ", opt.converge)
-        print("Done.")
-        print("Execution time: ", end - start, " seconds")
-        print("-" * 40)
-
-    # Get the final solution
-    x_final = opt._x_new
-    y_final = opt._y_new
-    if hasattr(cost_op, "cost"):
-        costs = cost_op._cost_list
-    else:
-        costs = None
-
-    return x_final, costs, opt.metrics, y_final
+    return online_algorithm(opt,kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run)

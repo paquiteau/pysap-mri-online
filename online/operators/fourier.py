@@ -73,7 +73,7 @@ class ColumnFFT(OperatorBase):
         Number of parallel workers to use for fourier computation
     """
 
-    def __init__(self, shape, line_index=0,n_coils=1, platform='numpy'):
+    def __init__(self, shape, line_index=0, n_coils=1, platform='numpy'):
         """Initilize the 'FFT' class.
 
         Parameters
@@ -98,7 +98,7 @@ class ColumnFFT(OperatorBase):
         self.n_coils = n_coils
         self._exp_f = np.zeros(shape[1], dtype=complex)
         self._exp_b = np.zeros(shape[1], dtype=complex)
-        self.line_index = line_index
+        self._mask = line_index
         if platform == 'numba' and n_coils > 1:
             self._dft = njit(complex128[:, :](complex128[:, :, :], complex128[:]), parallel=True)(
                 numba_njit_dft_multi)
@@ -119,22 +119,22 @@ class ColumnFFT(OperatorBase):
             raise NotImplementedError(f"platform '{platform}' is not supported")
 
     @property
-    def line_index(self):
-        return self._line_index
+    def mask(self):
+        return self._mask
 
-    @line_index.setter
-    def line_index(self, val: int, shift=True):
+    @mask.setter
+    def mask(self, val: int, shift=True):
         if shift:
             val = (self.shape[1] // 2 + val) % self.shape[1]
         if val >= self.shape[1]:
             raise IndexError("Index out of range")
-        self._line_index = val
+        self._mask = val
         cos = np.cos(2 * np.pi * val / self.shape[1])
         sin = np.sin(2 * np.pi * val / self.shape[1])
-        self.exp_f = cos - 1j * sin
-        self.exp_b = cos + 1j * sin
-        self._exp_f = (1 / np.sqrt(self.shape[1])) * self.exp_f ** np.arange(self.shape[1])
-        self._exp_b = (1 / np.sqrt(self.shape[1])) * self.exp_b ** np.arange(self.shape[1])
+        exp_f = cos - 1j * sin
+        exp_b = cos + 1j * sin
+        self._exp_f = (1 / np.sqrt(self.shape[1])) * exp_f ** np.arange(self.shape[1])
+        self._exp_b = (1 / np.sqrt(self.shape[1])) * exp_b ** np.arange(self.shape[1])
 
     def op(self, img):
         """This method calculates the masked 2D Fourier transform of a 2d or 3D image.

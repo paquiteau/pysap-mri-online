@@ -1,16 +1,13 @@
-import time
 import numpy as np
 
 # Third party import
 from modopt.opt.algorithms import SetUp
 from modopt.opt.cost import costObj
-from sklearn.metrics._plot.tests.test_plot_curve_common import test_plot_curve_estimator_name_multiple_calls
 
-from .base import online_algorithm
 
 class GenericGradOpt(SetUp):
     """ Generic Gradient descent operator
-    x_{k+1} = x_k - \frac{\eta}{\sqrt{s_k + \epsilon}} m_k
+    x_{k+1} = x_k - \\frac{\\eta}{\\sqrt{s_k + \\epsilon}} m_k
     """
 
     def __init__(self, x, grad, prox, linear, cost, eta=1, eta_update=None, epsilon=1e-6, metric_call_period=5,
@@ -30,7 +27,8 @@ class GenericGradOpt(SetUp):
         self._corr_grad = np.zeros_like(x)
         self.reg_factor = reg_factor
         # Set the algorithm operators
-        (self._check_operator(operator) for operator in (grad, prox, cost))
+        for operator in (grad, prox, cost):
+            self._check_operator(operator)
         self._grad = grad
         self._prox = prox
         self._linear = linear
@@ -39,7 +37,8 @@ class GenericGradOpt(SetUp):
         else:
             self._cost_func = cost
         # Set the algorithm parameters
-        (self._check_param(param) for param in (eta, epsilon))
+        for param in (eta, epsilon):
+            self._check_param(param)
         self._eta = eta
         self._eps = epsilon
 
@@ -52,10 +51,10 @@ class GenericGradOpt(SetUp):
         self._grad.get_grad(self._x_old)
         self.update_grad_dir(self._grad.grad)
         self.update_grad_speed(self._grad.grad)
-        Gamma = (self._eta / np.sqrt(self._speed_grad + self._eps))*self.reg_factor
-        self._x_new = self._x_old - Gamma * self._corr_grad
+        gamma = (self._eta / np.sqrt(self._speed_grad + self._eps))
+        self._x_new = self._x_old - gamma * self._corr_grad
 
-        self.update_reg(Gamma)
+        self.update_reg(gamma * self.reg_factor)
         self._x_old = self._x_new.copy()
 
         # Test cost function for convergence.
@@ -165,7 +164,7 @@ class ADAMOptGradOpt(GenericGradOpt):
     def update_grad_speed(self, grad):
         self._gamma_pow *= self._gamma
         self._speed_grad = (1.0 / (1.0 - self._gamma_pow)) * (
-                    self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2)
+                self._gamma * self._speed_grad + (1 - self._gamma) * abs(grad) ** 2)
 
 
 class SAGAOptGradOpt(GenericGradOpt):
@@ -178,49 +177,3 @@ class SAGAOptGradOpt(GenericGradOpt):
         cycle = self.iter % self.epoch_size
         self._corr_grad = self._corr_grad - self._grad_memory[cycle] + grad
         self._grad_memory[cycle] = grad
-
-
-GRAD_OPT = {
-    "vanilla": VanillaGenericGradOPt,
-    "adagrad": AdaGenericGradOpt,
-    "rmsprop": RMSpropGradOpt,
-    "momentum": MomemtumGradOpt,
-    "adam": ADAMOptGradOpt,
-    "saga": SAGAOptGradOpt,
-}
-
-
-def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, cost_op,
-                    x_init=None,
-                    nb_run=1,
-                    metric_call_period=5,
-                    metrics=None,
-                    estimate_call_period=None,
-                    verbose=0, **kwargs):
-    if metrics is None:
-        metrics = dict()
-    start = time.perf_counter()
-
-    # Define the initial primal and dual solutions
-    if x_init is None:
-        x_init = linear_op.op(np.squeeze(np.zeros((gradient_op.fourier_op.n_coils,
-                                                   *gradient_op.fourier_op.shape),
-                                                  dtype=np.complex)))
-    # Welcome message
-    if verbose > 0:
-        print(" - mu: ", prox_op.weights)
-        print(" - lipschitz constant: ", gradient_op.spec_rad)
-        print(" - data: ", gradient_op.fourier_op.shape)
-        if hasattr(linear_op, "nb_scale"):
-            print(" - wavelet: ", linear_op, "-", linear_op.nb_scale)
-        print("-" * 40)
-
-    opt = opt_cls(x=x_init,
-                  grad=gradient_op,
-                  prox=prox_op,
-                  linear=linear_op,
-                  cost=cost_op,
-                  metric_call_period=metric_call_period,
-                  metrics=metrics,
-                  **kwargs)
-    return online_algorithm(opt,kspace_generator, estimate_call_period=estimate_call_period,nb_run=nb_run )

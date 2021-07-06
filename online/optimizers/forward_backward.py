@@ -9,12 +9,17 @@ import time
 # Third party import
 import numpy as np
 from modopt.opt.algorithms import ForwardBackward, POGM
+from .base import online_algorithm
 
 
 def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
                  lambda_init=1.0, x_init=None,
-                 metric_call_period=5, metrics=None,
-                 verbose=0, **lambda_update_params):
+                 nb_run=1,
+                 metric_call_period=5,
+                 metrics=None,
+                 estimate_call_period=None,
+                 verbose=0,
+                 **lambda_update_params):
     """ The FISTA sparse reconstruction
 
     Parameters
@@ -98,34 +103,16 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         **lambda_update_params)
     cost_op = opt._cost_func
 
-    # Perform the reconstruction
-    if verbose > 0:
-        print("Starting optimization...")
-    opt.idx = 0
-    kspace_generator.opt_iterate(opt)
-
-    end = time.perf_counter()
-    if verbose > 0:
-        # cost_op.plot_cost()
-        if hasattr(cost_op, "cost"):
-            print(" - final iteration number: ", cost_op._iteration)
-            print(" - final log10 cost value: ", np.log10(cost_op.cost))
-        print(" - converged: ", opt.converge)
-        print("Done.")
-        print("Execution time: ", end - start, " seconds")
-        print("-" * 40)
-    x_final = linear_op.adj_op(opt._x_new)
-    if hasattr(cost_op, "cost"):
-        costs = cost_op._cost_list
-    else:
-        costs = None
-
-    return x_final, costs, opt.metrics
+    return online_algorithm(opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run)
 
 
 def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
-                x_init=None, metric_call_period=5,
-                sigma_bar=0.96, metrics=None, verbose=0):
+                x_init=None, sigma_bar=0.96,
+                nb_run=1,
+                metric_call_period=5,
+                metrics=None,
+                estimate_call_period=None,
+                verbose=0,):
     """
     Perform sparse reconstruction using the POGM algorithm.
 
@@ -202,27 +189,4 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         metrics=metrics,
         auto_iterate=False,
     )
-    opt.idx = 0
-    # Perform the reconstruction
-    if verbose > 0:
-        print("Starting optimization...")
-    kspace_generator.opt_iterate(opt)
-    end = time.perf_counter()
-    if verbose > 0:
-        # cost_op.plot_cost()
-        if hasattr(cost_op, "cost"):
-            print(" - final iteration number: ", cost_op._iteration)
-            print(" - final log10 cost value: ", np.log10(cost_op.cost))
-        print(" - converged: ", opt.converge)
-        print("Done.")
-        print("Execution time: ", end - start, " seconds")
-        print("-" * 40)
-    x_final = linear_op.adj_op(opt._x_new)
-    metrics_results = opt.metrics
-
-    if hasattr(cost_op, "cost"):
-        costs = cost_op._cost_list
-    else:
-        costs = None
-
-    return x_final, costs, metrics_results
+    return online_algorithm(opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run)
