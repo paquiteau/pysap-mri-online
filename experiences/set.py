@@ -1,17 +1,12 @@
 import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 import inspect
 from collections import Hashable, Set
-
 from .utils import key_val, flatten_dict, allowed_op
-
 MISSING = object()
-
+import copy
 
 class EmptySetError(Exception):
     pass
-
 
 class ExperienceSet(Set, Hashable):
     """
@@ -55,8 +50,8 @@ class ExperienceSet(Set, Hashable):
 
     def __repr__(self):
         s = 'ExperienceSet('
-        for e in self:
-            s += repr(e) + '\n'
+        for e in self._set:
+            s += str(repr(e)) + '\n'
         s += f'):{len(self)} Elements'
         return s
 
@@ -124,7 +119,7 @@ class ExperienceSet(Set, Hashable):
                 final_qs.add(sub)
         return final_qs
 
-    def _discrimininant_param(self, disc=True):
+    def get_discriminant_param(self, disc=True):
         all_key = dict()
         all_key_cnt = dict()
         for exp in self:
@@ -137,37 +132,6 @@ class ExperienceSet(Set, Hashable):
                     all_key[k] = v
                     all_key_cnt[k] = 1
         if disc:
-            return {k for k, c in all_key_cnt.items() if c < len(self)}
+            return {k: c for k, c in all_key_cnt.items() if c < len(self)}
         else:
             return {k: all_key[k] for k, c in all_key_cnt.items() if c == len(self)}
-
-    def to_dataframe(self, attr):
-        key_of_interest = self._discrimininant_param()
-        data = dict()
-        for exp in self:
-            legend_key = dict()
-            for k in key_of_interest:
-                if '__' in k:
-                    k1, k2 = k.split('__')
-                    legend_key[k2] = getattr(exp, k1).get(k2, None)
-                else:
-                    legend_key[k] = getattr(exp, k)
-            col_name = key_val(**legend_key)
-            data[col_name] = getattr(exp.results, attr)
-        return pd.DataFrame(data)
-
-    def filter_plot(self, *attrs, log=False, **kwargs):
-        qs = self.filter(**kwargs)
-        title = key_val(**qs._discrimininant_param(disc=False))
-        if not qs:
-            return None
-        for attr in attrs:
-            plt.figure()
-            df = qs.to_dataframe(attr=attr)
-            ax = df.plot(logy=log,
-                         title=title,
-                         ylabel=attr,
-                         xlabel='index',
-                         sort_columns=True)
-            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-        return qs

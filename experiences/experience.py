@@ -14,13 +14,13 @@ for c in config:
 Experience.objects.filter(and=True, 'alg="condat"', 'reg_kwargs["weights"]>1e-5')
 
 """
+print('import experiences.experience')
 
 import os
 import pickle
 import functools
 from .set import ExperienceSet
 from .results import Results
-
 
 class ExperienceManager:
     """
@@ -56,7 +56,7 @@ class ExperienceManager:
         self._theset = ExperienceSet()
 
     def create(self, *args, **kwargs):
-        return ExperienceRealization(*args, **kwargs)
+        return BaseExperience(*args, **kwargs)
 
     def set_attributes(self, an_object):
         self._object_attributes = [attr_name for attr_name in an_object.__dict__.keys()]
@@ -81,23 +81,28 @@ class BaseExperience:
             self.objects.set_attributes(self)
         self.objects.add(self)
 
-    def save_results(self, results_dict):
-        with open(f'{self.save_folder}/{hash(self)}.pkl', 'wb') as f:
-            pickle.dump(Results(**results_dict), f)
+    def save(self, *args, **kwargs):
+        raise NotImplementedError
 
     @property
-    def save_file(self):
+    def metrics_file(self):
         return f'{self.save_folder}/{hash(self)}.pkl'
+
+    @property
+    def data_file(self):
+        return f'{self.save_folder}/x_{hash(self)}.pkl'
 
     @functools.cached_property
     def results(self):
-        with open(self.save_file, 'rb') as f:
+        with open(self.metrics_file, 'rb') as f:
             res = pickle.load(f)
         return res
 
-    @property
-    def has_saved_results(self):
-        return os.path.exists(self.save_file)
+    @functools.cached_property
+    def xf(self):
+        with open(self.data_file, 'rb') as f:
+            res = pickle.load(f)
+        return res
 
     def id(self):
         raise NotImplementedError

@@ -1,5 +1,8 @@
 from collections import MutableMapping
+
+
 import numpy as np
+
 
 allowed_op = {
     'eq': lambda x, y: x == y,
@@ -10,6 +13,7 @@ allowed_op = {
     'ge': lambda x, y: x >= y,
     'in': lambda x, y: x in y,
 }
+
 
 def flatten_dict(d, parent_key='', sep='__'):
     """ Flatten a dictionnary """
@@ -26,27 +30,35 @@ def flatten_dict(d, parent_key='', sep='__'):
 
 
 def key_val(separator=', ', **kwargs):
-    """ return a string with format key=value,
+    """ Transform a dict of key: value into a string with format key=value,
        and also applying formating on number if needed.
     """
     st = ""
     for k, v in kwargs.items():
+        k = k.split('__')[-1]
         if v is None:
             continue
         if type(v) is str:
             st += v
         else:
-            st += f'{k}='
-            if isinstance(v,float) or isinstance(v, np.floating):
+            if isinstance(v, float) or isinstance(v, np.floating):
                 if abs(v) > 1000 or abs(v) < 1e-2:
-                    st += f'{v:.2e}'
+                    st += f'{k}={v:.2e}'
                 else:
-                    st += f'{v:.2f}'
+                    st += f'{k}={v:.2f}'
             elif type(v) is int:
-                st += f'{v}'
-            elif hasattr(v, '__str__'):
-                st += str(v)
+                st += f'{k}={v}'
+            elif type(v) is bool:
+                if v:
+                    st += f'{k}'
+                else:
+                    st += f'not {k}'
+            else:
+                continue
         st += separator
     if separator:
         st = st[:-len(separator)]
     return st
+
+
+

@@ -4,7 +4,9 @@ import numpy as np
 # Third party import
 from modopt.opt.algorithms import SetUp
 from modopt.opt.cost import costObj
+from sklearn.metrics._plot.tests.test_plot_curve_common import test_plot_curve_estimator_name_multiple_calls
 
+from .base import online_algorithm
 
 class GenericGradOpt(SetUp):
     """ Generic Gradient descent operator
@@ -12,7 +14,7 @@ class GenericGradOpt(SetUp):
     """
 
     def __init__(self, x, grad, prox, linear, cost, eta=1, eta_update=None, epsilon=1e-6, metric_call_period=5,
-                 metrics=None, **kwargs):
+                 metrics=None, reg_factor=1.0, **kwargs):
         # Set the initial variable values
         if metrics is None:
             metrics = dict()
@@ -26,7 +28,7 @@ class GenericGradOpt(SetUp):
         self._x_new = np.copy(x)
         self._speed_grad = np.zeros(x.shape, dtype=float)
         self._corr_grad = np.zeros_like(x)
-
+        self.reg_factor = reg_factor
         # Set the algorithm operators
         (self._check_operator(operator) for operator in (grad, prox, cost))
         self._grad = grad
@@ -50,7 +52,7 @@ class GenericGradOpt(SetUp):
         self._grad.get_grad(self._x_old)
         self.update_grad_dir(self._grad.grad)
         self.update_grad_speed(self._grad.grad)
-        Gamma = (self._eta / np.sqrt(self._speed_grad + self._eps))
+        Gamma = (self._eta / np.sqrt(self._speed_grad + self._eps))*self.reg_factor
         self._x_new = self._x_old - Gamma * self._corr_grad
 
         self.update_reg(Gamma)
@@ -190,8 +192,10 @@ GRAD_OPT = {
 
 def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, cost_op,
                     x_init=None,
+                    nb_run=1,
                     metric_call_period=5,
                     metrics=None,
+                    estimate_call_period=None,
                     verbose=0, **kwargs):
     if metrics is None:
         metrics = dict()
@@ -219,23 +223,4 @@ def gradient_online(opt_cls, kspace_generator, gradient_op, linear_op, prox_op, 
                   metric_call_period=metric_call_period,
                   metrics=metrics,
                   **kwargs)
-    opt.idx = 0
-    kspace_generator.opt_iterate(opt)
-
-    # Goodbye message
-    end = time.perf_counter()
-    if verbose > 0:
-        if hasattr(cost_op, "cost"):
-            print(" - final iteration number: ", cost_op._iteration)
-            print(" - final cost value: ", cost_op.cost)
-        print(" - converged: ", opt.converge)
-        print("Done.")
-        print("Execution time: ", end - start, " seconds")
-        print("-" * 40)
-    # Get the final solution
-    x_final = linear_op.adj_op(opt._x_new)
-    if hasattr(cost_op, "cost"):
-        costs = cost_op._cost_list
-    else:
-        costs = None
-    return x_final, costs, opt.metrics
+    return online_algorithm(opt,kspace_generator, estimate_call_period=estimate_call_period,nb_run=nb_run )
