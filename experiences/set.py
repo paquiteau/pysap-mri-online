@@ -118,7 +118,17 @@ class ExperienceSet(Set, Hashable):
             if (mode == 'loose_and' and val_test is None) or val_test:
                 final_qs.add(sub)
         return final_qs
-
+    
+    def get(self, **kwargs):
+        qs = self.filter(**kwargs)
+        
+        if len(qs) > 1:
+            print("query not specific enought, return first matching element")
+        return qs._set.pop()
+    
+    def pop(self):
+        return qs._set.pop()
+    
     def get_discriminant_param(self, disc=True):
         all_key = dict()
         all_key_cnt = dict()

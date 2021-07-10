@@ -9,11 +9,11 @@ def ssos(img):
     else:
         return np.sqrt(img ** 2)
 
-def psnr_ssos(test, ref):
+def psnr_ssos(test, ref, mask=None):
     test = ssos(test)
-    return psnr(test, ref)
+    return psnr(test, ref,mask=None)
 
 
-def ssim_ssos(test, ref):
+def ssim_ssos(test, ref, mask=None):
     test = ssos(test)
-    return ssim(test, ref)
+    return ssim(test, ref, mask=None)

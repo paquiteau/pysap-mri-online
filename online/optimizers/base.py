@@ -9,7 +9,10 @@ def online_algorithm(opt, kspace_generator, estimate_call_period=None,
         print("Starting optimization...")
 
     start = time.perf_counter()
-    estimates = kspace_generator.opt_iterate(opt, run=nb_run, estimate_call_period=estimate_call_period)
+    estimates = list()
+    for run in range(nb_run):
+        estimates += kspace_generator.opt_iterate(opt, estimate_call_period=estimate_call_period)
+
     end = time.perf_counter()
     # Goodbye
     if verbose > 0:

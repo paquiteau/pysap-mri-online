@@ -1,21 +1,24 @@
+#!/usr/bin/env python
 import copy
 import yaml
 from pprint import pprint
 import numpy as np
+import argparse
 
 from modopt.opt.proximity import GroupLASSO, IdentityProx
 from modopt.opt.linear import Identity
 from mri.operators import FFT, OWL, WaveletN
 
-from online.operators import ColumnFFT
+from online.operators import ColumnFFT, LASSO
 from online.generators import Column2DKspaceGenerator, DataOnlyKspaceGenerator, KspaceGenerator
 from online.reconstructors import OnlineReconstructor
 
 from project_utils import load_data, create_cartesian_metrics
 
-from results.base import Experience, loader, ungrid, get_hash, set_hashseed
+from results.base import Experience, loader, ungrid, get_hash
 
 def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, linear=None):
+    """ Create the various operators from the config file. """
     n_coils = 1 if kspace_data.ndim == 2 else kspace_data.shape[0]
     shape = kspace_data.shape[-2:]
     if fourier_type == 0:  # offline reconstruction
@@ -42,6 +45,8 @@ def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, l
     prox_op = IdentityProx()
     if regularisation is not None:
         reg_cls = regularisation.pop('class')
+        if reg_cls == 'LASSO':
+            prox_op = LASSO(weights=regularisation['weights'])
         if reg_cls == 'GroupLASSO':
             prox_op = GroupLASSO(weights=regularisation['weights'])
         elif reg_cls == 'OWL':
@@ -52,18 +57,27 @@ def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, l
 
 
 DATA_DIR = 'data/'
-FORCE_COMPUTE = False
-DRY_MODE = False
-if __name__ == '__main__':
 
-    set_hashseed(0)
-    with open('results/grid_config.yml') as f:
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Grid search of the MRI online program')
+    parser.add_argument('-f', dest='FORCE', action='store_true', default=False,help="recomputed past computations")
+    parser.add_argument('grid_file', type=str, default='result/grid_config.yml', help='config file setting data, problem and solver configuration.')
+    parser.add_argument('--dry', dest='DRY', action='store_true', default=False, help='dry mode, skip the computation, but do everything else')
+    parser.add_argument('--tested',type=str, default='results/tested_config.yml', help="List of past config.")
+    parser.add_argument('--failed',type=str, default='results/failed_config.yml', help="List of past, failed config.")
+
+    args = parser.parse_args()
+    
+    
+    
+
+    with open(args.grid_file) as f:
         cfg = yaml.load(f, Loader=loader)
         setups = ungrid(cfg)
-    with open('results/tested_config.yml') as f:
+    with open(args.tested) as f:
         tested_cfg = yaml.load(f, Loader=loader)
         tested_cfg = [None] if tested_cfg is None else tested_cfg
-    with open('results/failed_config.yml') as f:
+    with open(args.failed) as f:
         failed_cfg = yaml.load(f, Loader=loader)
         failed_cfg = [None] if failed_cfg is None else tested_cfg
 
@@ -74,13 +88,13 @@ if __name__ == '__main__':
         data, problem, solver = copy.deepcopy(setup['data']), copy.deepcopy(setup['problem']), copy.deepcopy(
             setup['solver'])
         e = Experience(data, problem, solver)
-        print(f' == {idx}/{len(setups)}: {hash(e.id)} == ')
+        print(f' == {idx}/{len(setups)}: {e.hex_hash()} == ')
         pprint(e.id())
-        if not FORCE_COMPUTE and hash(e) in hash_list:
+        if not args.FORCE and e.hex_hash() in hash_list:
             print('already computed')
             continue
 
-        if not DRY_MODE:
+        if not args.DRY:
             # get data
             full_k, real_img, mask_loc, final_mask = load_data(DATA_DIR, **data)
             final_k = np.squeeze(full_k * final_mask[np.newaxis])
@@ -107,5 +121,5 @@ if __name__ == '__main__':
                                                       + np.array(metrics_results['reg_res']['values']))}
 
             e.save(estimates, metrics_results)
-        if not hash(e) in hash_list:
+        if not e.hex_hash() in hash_list:
             e.config2file('results/tested_config.yml')

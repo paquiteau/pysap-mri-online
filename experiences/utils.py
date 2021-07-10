@@ -1,5 +1,6 @@
 from collections import MutableMapping
 
+import hashlib
 
 import numpy as np
 
@@ -60,5 +61,5 @@ def key_val(separator=', ', **kwargs):
         st = st[:-len(separator)]
     return st
 
-
-
+def md5(string):
+    return hashlib.md5(string.encode())

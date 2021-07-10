@@ -14,13 +14,16 @@ for c in config:
 Experience.objects.filter(and=True, 'alg="condat"', 'reg_kwargs["weights"]>1e-5')
 
 """
-print('import experiences.experience')
 
 import os
 import pickle
+import hashlib
+
 import functools
 from .set import ExperienceSet
 from .results import Results
+
+
 
 class ExperienceManager:
     """
@@ -66,6 +69,9 @@ class ExperienceManager:
 
     def filter(self, **kwargs):
         return self._theset.filter(**kwargs)
+    
+    def get(self, **kwargs):
+        return self._theset.get(**kwargs)
 
     def filter_plot(self, *args, **kwargs):
         return self._theset.filter_plot(*args, **kwargs)
@@ -86,11 +92,11 @@ class BaseExperience:
 
     @property
     def metrics_file(self):
-        return f'{self.save_folder}/{hash(self)}.pkl'
+        return f'{self.save_folder}/{self.hex_hash()}.pkl'
 
     @property
     def data_file(self):
-        return f'{self.save_folder}/x_{hash(self)}.pkl'
+        return f'{self.save_folder}/x_{self.hex_hash()}.pkl'
 
     @functools.cached_property
     def results(self):
@@ -106,9 +112,12 @@ class BaseExperience:
 
     def id(self):
         raise NotImplementedError
-
+        
+    def hex_hash(self):
+        return hashlib.md5(self.id().encode()).hexdigest()
+    
     def __hash__(self):
-        return hash(self.id())
+        return int(self.hex_hash(),16)
 
     def __repr__(self):
         return self.id
