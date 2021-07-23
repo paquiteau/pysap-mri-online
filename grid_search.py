@@ -4,6 +4,7 @@ import yaml
 from pprint import pprint
 import numpy as np
 import argparse
+import traceback
 
 from modopt.opt.proximity import GroupLASSO, IdentityProx
 from modopt.opt.linear import Identity
@@ -17,12 +18,12 @@ from project_utils import load_data, create_cartesian_metrics
 
 from results.base import Experience, loader, ungrid, get_hash
 
-def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, linear=None):
+def get_operators(kspace_data, loc, mask, fourier_type=1, max_iter=80, regularisation=None, linear=None):
     """ Create the various operators from the config file. """
     n_coils = 1 if kspace_data.ndim == 2 else kspace_data.shape[0]
     shape = kspace_data.shape[-2:]
     if fourier_type == 0:  # offline reconstruction
-        kspace_generator = KspaceGenerator(full_kspace=kspace_data, mask=mask, max_iter=len(loc))
+        kspace_generator = KspaceGenerator(full_kspace=kspace_data, mask=mask, max_iter=max_iter)
         fourier_op = FFT(shape=shape, n_coils=n_coils, mask=mask)
     elif fourier_type == 1:  # online type I reconstruction
         kspace_generator = Column2DKspaceGenerator(full_kspace=kspace_data, mask_cols=loc)
@@ -37,8 +38,10 @@ def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, l
     else:
         lin_cls = linear.pop('class', None)
         if lin_cls == 'WaveletN':
-            linear_op = WaveletN(n_coils=n_coils, **linear)
+            linear_op = WaveletN(n_coils=n_coils, n_jobs=4, **linear)
             linear_op.op(np.zeros_like(kspace_data))
+        elif lin_cls == 'Identity':
+            linear_op = Identity()
         else:
             raise NotImplementedError
 
@@ -53,6 +56,7 @@ def get_operators(kspace_data, loc, mask, fourier_type=1, regularisation=None, l
             prox_op = OWL(**regularisation, n_coils=n_coils, bands_shape=linear_op.coeffs_shape)
         elif reg_cls == 'IdentityProx':
             prox_op = IdentityProx()
+            linear_op = Identity()
     return kspace_generator, fourier_op, linear_op, prox_op
 
 
@@ -67,9 +71,6 @@ if __name__ == '__main__':
     parser.add_argument('--failed',type=str, default='results/failed_config.yml', help="List of past, failed config.")
 
     args = parser.parse_args()
-    
-    
-    
 
     with open(args.grid_file) as f:
         cfg = yaml.load(f, Loader=loader)
@@ -109,8 +110,9 @@ if __name__ == '__main__':
                 results = online_pb.reconstruct(ksp, **solver, **metrics_config)
             except Exception as err:
                 print(" -- Failed -- ")
+                print(traceback.format_exc())
                 print(err)
-                e.config2file('results/failed_config.yml')
+                e.config2file(args.failed)
                 continue
             metrics_results = results.pop('metrics')
             costs = results.pop('costs')
@@ -122,4 +124,4 @@ if __name__ == '__main__':
 
             e.save(estimates, metrics_results)
         if not e.hex_hash() in hash_list:
-            e.config2file('results/tested_config.yml')
+            e.config2file(args.tested)
