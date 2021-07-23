@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 import os
-import scipy.fftpack as pfft
+import scipy as sp
 import matplotlib.pyplot as plt
 
 from online.metrics import psnr_ssos, ssim_ssos
@@ -9,25 +9,35 @@ from online.operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
 from mri.operators import FFT
 
 
-def load_data(data_dir, data_idx, monocoil=False):
+def load_data(data_dir, data_idx, monocoil=False, use_ref_kspace=True, fourier=True):
     # data is a list of 5-tuple:
 
     data = np.load(os.path.join(data_dir, "all_data_full.npy"), allow_pickle=True)[data_idx]
 
     kspace_real, base_real_img, header_file, _ = data
-    if monocoil:
-        kspace_real = np.sum(kspace_real**2, axis=0)
-    kspace = pfft.ifftshift(pfft.fft2(pfft.fftshift(kspace_real, axes=[-1, -2]), axes=[-1, -2]), axes=[-1, -2]).astype("complex128")
+    
     img_size = base_real_img.shape
-    real_img_size = kspace.shape[-2:]
+    real_img_size = kspace_real.shape[-2:]
     mask_loc = np.load(os.path.join(data_dir, "mask_quarter.npy"))
     mask = np.zeros(real_img_size, dtype="int")
     mask[:, mask_loc] = 1
     s = np.std(base_real_img[0:20,0:20],axis=None)
-    m =  np.mean(base_real_img[0:20,0:20])
+    m = np.mean(base_real_img[0:20,0:20])
     real_img = s * np.random.randn(*real_img_size)+m
     real_img[real_img_size[0] // 2 - img_size[0] // 2:real_img_size[0] // 2 + img_size[0] // 2,
              real_img_size[1] // 2 - img_size[1] // 2:real_img_size[1] // 2 + img_size[1] // 2] = base_real_img
+    if fourier:
+        if monocoil:
+            kspace_real = np.sum(np.square(kspace_real), axis=0)
+        if use_ref_kspace and monocoil:
+            kspace = sp.fft.ifftshift(sp.fft.fft2(sp.fft.fftshift(real_img),norm="ortho"))
+        else:
+            kspace = sp.fft.ifftshift(sp.fft.fft2(sp.fft.fftshift(kspace_real, axes=[-1, -2]),norm="ortho", axes=[-1, -2]), axes=[-1, -2]).astype("complex128")
+    else:
+        if monocoil:
+            kspace = np.sum(np.square(kspace_real), axis=0)
+        else:
+            kspace = kspace_real
     return kspace, real_img, mask_loc, mask
 
 
@@ -38,10 +48,6 @@ def implot(array, title=None, colorbar=None, mask=None, axis=False):
         array = np.abs(array)
     fig = plt.figure()
     plt.imshow(array)
-    if array.ndim == 3:
-        for i in range(array.shape[0]):
-            implot(array[i], title[i])
-
     if title:
         plt.title(title)
     if colorbar:
@@ -49,7 +55,10 @@ def implot(array, title=None, colorbar=None, mask=None, axis=False):
     if not axis:
         plt.axis("off")
     return fig
-def imsave(array, filename):
+
+def imsave(array, filename,mask=None):
+    if mask is not None:
+        array = array[np.ix_(mask.any(1), mask.any(0))]
     if np.iscomplexobj(array):
         array = np.abs(array)
     plt.imsave(filename,array)
