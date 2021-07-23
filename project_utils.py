@@ -94,12 +94,20 @@ def create_cartesian_metrics(online_pb, real_img, final_mask, final_k, estimates
                                'early_stopping': False,
                                'cst_kwargs': dict(),
                                },
-               'reg_res': {'metric': lambda x: online_pb.prox_op.cost(online_pb.linear_op.op(x)),
+              }
+    if online_pb.opt == 'condatvu':
+        metrics['reg_res'] = {'metric': lambda y: online_pb.prox_op.cost(y),
+                           'mapping': {'y_new': 'y'},
+                           'early_stopping': False,
+                           'cst_kwargs': dict(),
+                           }
+    else:
+        metrics['reg_res'] = {'metric': lambda x: online_pb.prox_op.cost(online_pb.linear_op.op(x)),
                            'mapping': {'x_new': 'x'},
                            'early_stopping': False,
                            'cst_kwargs': dict(),
                            }
-               }
+               
     metrics_config = {'metrics': metrics,
                       'cost_op_kwargs': {"cost_interval": 1},
                       'metric_call_period': 1,
