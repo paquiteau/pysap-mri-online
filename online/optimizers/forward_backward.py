@@ -154,7 +154,7 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
     if metrics is None:
         metrics = dict()
     # Define the initial values
-    im_shape = (gradient_op.linear_op.n_coils, *gradient_op.fourier_op.shape)
+    im_shape = (gradient_op.fourier_op.n_coils, *gradient_op.fourier_op.shape)
     if x_init is None:
         alpha_init = linear_op.op(np.squeeze(np.zeros(im_shape,
                                                       dtype='complex128')))

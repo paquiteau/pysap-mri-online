@@ -6,19 +6,22 @@ from ..operators.cost import SmartGenericCost
 
 from ..optimizers.forward_backward import pogm_online, fista_online
 from ..optimizers.primal_dual import condatvu_online
-from ..optimizers.online_grad import gradient_online
-from ..optimizers.gradescent import VanillaGenericGradOPt, AdaGenericGradOpt, RMSpropGradOpt, MomemtumGradOpt, \
-    ADAMOptGradOpt, SAGAOptGradOpt
+from ..optimizers.online_grad import gradient_online, gradient_online_analysis
+from ..optimizers.gradescent import VanillaGenericGradOpt, AdaGenericGradOpt, RMSpropGradOpt, MomentumGradOpt, \
+    ADAMOptGradOpt, SAGAOptGradOpt, VanillaEpochGenericGradOpt, MomentumEpochGradOpt
 from ..operators.gradient import OnlineGradAnalysis, OnlineGradSynthesis
 
 OPTIMIZERS = {
     'condatvu': condatvu_online,
     'pogm': pogm_online,
     'fista': fista_online,
-    'vanilla': lambda *args, **kwargs: gradient_online(VanillaGenericGradOPt, *args, **kwargs),
+    'vanilla': lambda *args, **kwargs: gradient_online(VanillaGenericGradOpt, *args, **kwargs),
     'adagrad': lambda *args, **kwargs: gradient_online(AdaGenericGradOpt, *args, **kwargs),
     'rmsprop': lambda *args, **kwargs: gradient_online(RMSpropGradOpt, *args, **kwargs),
-    'momentum': lambda *args, **kwargs: gradient_online(MomemtumGradOpt, *args, **kwargs),
+    'momentum': lambda *args, **kwargs: gradient_online(MomentumGradOpt, *args, **kwargs),
+    'momentum-epoch': lambda *args, **kwargs: gradient_online_analysis(MomentumEpochGradOpt, *args, **kwargs),
+    'vanilla-epoch': lambda *args, **kwargs: gradient_online_analysis(VanillaEpochGenericGradOPt, *args, **kwargs),
+
     'adam': lambda *args, **kwargs: gradient_online(ADAMOptGradOpt, *args, **kwargs),
     'saga': lambda *args, **kwargs: gradient_online(SAGAOptGradOpt, *args, **kwargs),
 }
@@ -29,14 +32,9 @@ OPTIMIZERS_TYPE = {
     'fista': 'forward_backward',
 
 }
-SYNTHESIS_OPT = {'condat': 'analysis',
-                 'pogm': 'synthesis',
-                 'fista': 'synthesis',
-                 'adam': 'synthesis',
-                 'rmsprop': 'synthesis',
-                 'adagrad': 'synthesis',
-                 'momentum': 'synthesis',
-                 'vanilla': 'synthesis'}
+ANALYSIS_OPT = {'condatvu': 'analysis',
+                'vanilla-epoch': 'analysis',
+                'momentum-epoch': 'analysis',}
 
 
 class OnlineReconstructor:
@@ -81,7 +79,7 @@ class OnlineReconstructor:
             self.prox_op = regularizer_op
         assert opt in OPTIMIZERS.keys()
         self.opt = opt
-        grad_formulation = SYNTHESIS_OPT.get(opt, 'analysis')
+        grad_formulation = ANALYSIS_OPT.get(opt, 'synthesis')
         if grad_formulation == 'analysis':
             self.gradient_op = OnlineGradAnalysis(self.fourier_op,
                                                   verbose=self.verbose,
