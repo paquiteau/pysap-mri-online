@@ -11,6 +11,10 @@ def online_algorithm(opt, kspace_generator, estimate_call_period=None,
     start = time.perf_counter()
     estimates = list()
     for run in range(nb_run):
+        try:
+            opt.reset()
+        except AttributeError as e:
+            pass
         estimates += kspace_generator.opt_iterate(opt, estimate_call_period=estimate_call_period)
 
     end = time.perf_counter()
@@ -32,7 +36,7 @@ def online_algorithm(opt, kspace_generator, estimate_call_period=None,
     if hasattr(opt, '_y_new'):
         ret_dict['y_final'] = observer_kwargs['y_new']
     if hasattr(cost_op, "cost"):
-        ret_dict['costs'] =  cost_op._cost_list
+        ret_dict['costs'] = cost_op._cost_list
     if estimates:
         ret_dict['x_estimates'] = estimates
     return ret_dict
