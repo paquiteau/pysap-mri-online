@@ -1,24 +1,28 @@
-import matplotlib.pyplot as plt
 import inspect
 from collections import Hashable, Set
-from .utils import key_val, flatten_dict, allowed_op
+from .utils import flatten_dict, allowed_op
+
 MISSING = object()
-import copy
+
 
 class EmptySetError(Exception):
     pass
+
 
 class ExperienceSet(Set, Hashable):
     """
     A set Of Experiences, defined using  Abstract Base Classes.
     """
+
     __hash__ = Set._hash
 
-    wrapped_methods = ('difference',
-                       'intersection',
-                       'symmetric_difference',
-                       'union',
-                       'copy')
+    wrapped_methods = (
+        "difference",
+        "intersection",
+        "symmetric_difference",
+        "union",
+        "copy",
+    )
 
     def __new__(cls, iterable=None):
         obj = super(ExperienceSet, cls).__new__(ExperienceSet)
@@ -32,6 +36,7 @@ class ExperienceSet(Set, Hashable):
         def method(*args, **kwargs):
             result = getattr(obj._set, method_name)(*args, **kwargs)
             return ExperienceSet(result)
+
         return method
 
     def __getattr__(self, attr):
@@ -49,13 +54,13 @@ class ExperienceSet(Set, Hashable):
         return iter(self._set)
 
     def __repr__(self):
-        s = 'ExperienceSet('
+        s = "ExperienceSet("
         for e in self._set:
-            s += str(repr(e)) + '\n'
-        s += f'):{len(self)} Elements'
+            s += str(repr(e)) + "\n"
+        s += f"):{len(self)} Elements"
         return s
 
-    def filter(self, mode='loose_and', **kwargs):
+    def filter(self, mode="loose_and", **kwargs):
         """
         Parameters
         ----------
@@ -79,27 +84,27 @@ class ExperienceSet(Set, Hashable):
             return ExperienceSet(self)
 
         def _match_filter(sub, kw, val):
-            """ check if a subject `sub` verify the condition sub.kw = val"""
-            _kw = kw.split('__')
+            """check if a subject `sub` verify the condition sub.kw = val"""
+            _kw = kw.split("__")
             if _kw[-1] not in allowed_op:
-                op = 'eq'
+                op = "eq"
             else:
                 op = _kw.pop()
             while _kw:
                 __kw = _kw.pop(0)
-                if hasattr(sub, __kw): # attribute/property access
+                if hasattr(sub, __kw):  # attribute/property access
                     sub = getattr(sub, __kw)
                     if inspect.ismethod(sub):
                         sub = sub()
-                elif hasattr(sub, 'get'):  # try dict access
+                elif hasattr(sub, "get"):  # try dict access
                     sub2 = sub.get(__kw, MISSING)
                     if sub2 is MISSING:
                         return None
                     else:
                         sub = sub2
                 else:
-                    if mode != 'loose_and':
-                        raise KeyError(f'{sub} has no accessible attribute using {kw}')
+                    if mode != "loose_and":
+                        raise KeyError(f"{sub} has no accessible attribute using {kw}")
                     else:
                         return None
             return allowed_op[op](sub, val)
@@ -109,26 +114,26 @@ class ExperienceSet(Set, Hashable):
             val_test = False
             for kw in kwargs:
                 val_test = _match_filter(sub, kw, kwargs[kw])
-                if mode == 'or' and val_test is True:
+                if mode == "or" and val_test is True:
                     break
-                if mode == 'and' and val_test is not True:
+                if mode == "and" and val_test is not True:
                     break
-                if mode == 'loose_and' and val_test is False:
+                if mode == "loose_and" and val_test is False:
                     break
-            if (mode == 'loose_and' and val_test is None) or val_test:
+            if (mode == "loose_and" and val_test is None) or val_test:
                 final_qs.add(sub)
         return final_qs
-    
+
     def get(self, **kwargs):
         qs = self.filter(**kwargs)
-        
+
         if len(qs) > 1:
             print("query not specific enought, return first matching element")
         return qs._set.pop()
-    
+
     def pop(self):
-        return qs._set.pop()
-    
+        return self._set.pop()
+
     def get_discriminant_param(self, disc=True):
         all_key = dict()
         all_key_cnt = dict()
@@ -136,8 +141,12 @@ class ExperienceSet(Set, Hashable):
             conf = flatten_dict(exp.__dict__)
             for k, v in conf.items():
                 if k in all_key:
-                    if v == all_key[k]:
-                        all_key_cnt[k] += 1
+                    try:
+                        if v == all_key[k]:
+                            all_key_cnt[k] += 1
+                    except ValueError as e:
+                        print(e)
+                        continue
                 else:
                     all_key[k] = v
                     all_key_cnt[k] = 1
