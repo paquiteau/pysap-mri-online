@@ -12,15 +12,22 @@ from modopt.opt.algorithms import ForwardBackward, POGM
 from .base import online_algorithm
 
 
-def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
-                 lambda_init=1.0, x_init=None,
-                 nb_run=1,
-                 metric_call_period=5,
-                 metrics=None,
-                 estimate_call_period=None,
-                 verbose=0,
-                 **lambda_update_params):
-    """ The FISTA sparse reconstruction
+def fista_online(
+    kspace_generator,
+    gradient_op,
+    linear_op,
+    prox_op,
+    cost_op,
+    lambda_init=1.0,
+    x_init=None,
+    nb_run=1,
+    metric_call_period=5,
+    metrics=None,
+    estimate_call_period=None,
+    verbose=0,
+    **lambda_update_params
+):
+    """The FISTA sparse reconstruction
 
     Parameters
     ----------
@@ -64,9 +71,12 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
 
     # Define the initial primal and dual solutions
     if x_init is None:
-        x_init = np.squeeze(np.zeros((gradient_op.linear_op.n_coils,
-                                      *gradient_op.fourier_op.shape),
-                                     dtype=np.complex))
+        x_init = np.squeeze(
+            np.zeros(
+                (gradient_op.fourier_op.n_coils, *gradient_op.fourier_op.shape),
+                dtype=np.complex,
+            )
+        )
     alpha_init = linear_op.op(x_init)
 
     # Welcome message
@@ -100,19 +110,29 @@ def fista_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op,
         linear=linear_op,
         lambda_param=lambda_init,
         beta_param=beta_param,
-        **lambda_update_params)
+        **lambda_update_params
+    )
     cost_op = opt._cost_func
 
-    return online_algorithm(opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run)
+    return online_algorithm(
+        opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run
+    )
 
 
-def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
-                x_init=None, sigma_bar=0.96,
-                nb_run=1,
-                metric_call_period=5,
-                metrics=None,
-                estimate_call_period=None,
-                verbose=0,):
+def pogm_online(
+    kspace_generator,
+    gradient_op,
+    linear_op,
+    prox_op,
+    cost_op=None,
+    x_init=None,
+    sigma_bar=0.96,
+    nb_run=1,
+    metric_call_period=5,
+    metrics=None,
+    estimate_call_period=None,
+    verbose=0,
+):
     """
     Perform sparse reconstruction using the POGM algorithm.
 
@@ -156,8 +176,7 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
     # Define the initial values
     im_shape = (gradient_op.fourier_op.n_coils, *gradient_op.fourier_op.shape)
     if x_init is None:
-        alpha_init = linear_op.op(np.squeeze(np.zeros(im_shape,
-                                                      dtype='complex128')))
+        alpha_init = linear_op.op(np.squeeze(np.zeros(im_shape, dtype="complex128")))
     else:
         alpha_init = linear_op.op(x_init)
 
@@ -189,4 +208,6 @@ def pogm_online(kspace_generator, gradient_op, linear_op, prox_op, cost_op=None,
         metrics=metrics,
         auto_iterate=False,
     )
-    return online_algorithm(opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run)
+    return online_algorithm(
+        opt, kspace_generator, estimate_call_period=estimate_call_period, nb_run=nb_run
+    )

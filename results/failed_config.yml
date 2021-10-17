@@ -1,0 +1,7277 @@
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    eta: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1.0e-05
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0001
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 0.5
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.5
+    eta: 0.5
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 0.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 0.0005
+  solver:
+    algo: adam
+    beta: 1.0
+    eta: 1.0
+    gamma: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: rmsprop
+    eta: 1.0
+    gamma: 0.0
+    nb_run: 1
+    reg_factor: 0.0125 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: rmsprop
+    eta: 1.0
+    gamma: 0.1
+    nb_run: 1
+    reg_factor: 0.0125 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: rmsprop
+    eta: 1.0
+    gamma: 0.5
+    nb_run: 1
+    reg_factor: 0.0125 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: rmsprop
+    eta: 1.0
+    gamma: 0.9
+    nb_run: 1
+    reg_factor: 0.0125 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.5
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: condatvu
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: condatvu
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: condatvu
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: condatvu
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: pogm
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: pogm
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: pogm
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: pogm
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 2
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 2
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.5e-08
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: vanilla
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: vanilla
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.5
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.5
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: vanilla
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: vanilla
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.5
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.5
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: LASSO
+      weights: 2.0e-06
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 0.125
+    nb_run: 1
+    reg_factor: 0.0125
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 1.0
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 2
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: momentum
+    beta: 0.9 1.0
+    eta: 0.125
+    nb_run: 1
+    reg_factor: 1.0
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: vanilla
+    eta: 1.0
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: vanilla
+    eta: 1.0
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 1-e6
+  solver:
+    algo: vanilla
+    eta: 1.0
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: condatvu
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: true
+  problem:
+    fourier_type: 0
+    linear:
+      class: WaveletN
+      nb_scale: 4
+      wavelet_name: sym8
+    regularisation:
+      class: GroupLASSO
+      weights: 5.0e-07
+  solver:
+    algo: pogm
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 1
+    linear:
+      class: Identity
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: fista
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 1
+    linear:
+      class: Identity
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: fista
+    nb_run: 1
+- data:
+    data_idx: 1
+    monocoil: false
+  problem:
+    fourier_type: 1
+    linear:
+      class: Identity
+    regularisation:
+      class: IdentityProx
+  solver:
+    algo: fista
+    nb_run: 1

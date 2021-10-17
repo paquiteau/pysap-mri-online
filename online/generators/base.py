@@ -1,9 +1,8 @@
-
 import numpy as np
 from tqdm import tqdm
 
 
-class KspaceGenerator:
+class KspaceGeneratorBase:
     """
     Basic K-space Generator emulate the acquisition of an MRI.
 
@@ -61,9 +60,9 @@ class KspaceGenerator:
             opt._update()
             if opt.metrics and opt.metric_call_period is not None:
                 if opt.idx % opt.metric_call_period == 0 or opt.idx == (self._len - 1):
-                     opt._compute_metrics()
+                    opt._compute_metrics()
             if estimate_call_period is not None:
-                 if opt.idx % estimate_call_period == 0 or opt.idx == (self._len - 1):
-                     x_new_list.append(opt.get_notify_observers_kwargs()['x_new'])
+                if opt.idx % estimate_call_period == 0 or opt.idx == (self._len - 1):
+                    x_new_list.append(opt.get_notify_observers_kwargs()["x_new"])
         opt.retrieve_outputs()
         return x_new_list

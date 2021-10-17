@@ -1,5 +1,6 @@
 import time
 
+
 def online_algorithm(opt, kspace_generator, estimate_call_period=None,
                      nb_run=1, verbose=0):
     opt.idx = 0

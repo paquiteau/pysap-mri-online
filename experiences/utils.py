@@ -30,7 +30,7 @@ def flatten_dict(d, parent_key='', sep='__'):
     return ret
 
 
-def key_val(separator=', ', **kwargs):
+def key_val(separator=', ',val_pres=2, **kwargs):
     """ Transform a dict of key: value into a string with format key=value,
        and also applying formating on number if needed.
     """
@@ -44,9 +44,9 @@ def key_val(separator=', ', **kwargs):
         else:
             if isinstance(v, float) or isinstance(v, np.floating):
                 if abs(v) > 1000 or abs(v) < 1e-2:
-                    st += f'{k}={v:.2e}'
+                    st += f'{k}={v:.{val_pres}e}'
                 else:
-                    st += f'{k}={v:.2f}'
+                    st += f'{k}={v:.{val_pres}f}'
             elif type(v) is int:
                 st += f'{k}={v}'
             elif type(v) is bool:

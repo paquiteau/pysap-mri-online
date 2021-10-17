@@ -20,7 +20,7 @@ OPTIMIZERS = {
     'rmsprop': lambda *args, **kwargs: gradient_online(RMSpropGradOpt, *args, **kwargs),
     'momentum': lambda *args, **kwargs: gradient_online(MomentumGradOpt, *args, **kwargs),
     'momentum-epoch': lambda *args, **kwargs: gradient_online_analysis(MomentumEpochGradOpt, *args, **kwargs),
-    'vanilla-epoch': lambda *args, **kwargs: gradient_online_analysis(VanillaEpochGenericGradOPt, *args, **kwargs),
+    'vanilla-epoch': lambda *args, **kwargs: gradient_online_analysis(VanillaEpochGenericGradOpt, *args, **kwargs),
 
     'adam': lambda *args, **kwargs: gradient_online(ADAMOptGradOpt, *args, **kwargs),
     'saga': lambda *args, **kwargs: gradient_online(SAGAOptGradOpt, *args, **kwargs),

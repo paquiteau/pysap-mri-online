@@ -6,11 +6,12 @@ import numpy as np
 import scipy as sp
 
 from mri.operators.base import OperatorBase
-from numba import njit, vectorize, guvectorize, prange, int64, complex128
+
+from numba import njit, guvectorize, prange, complex128
 
 
 def numba_dft(row, exp_k, out):
-    out[:] = 0.j
+    out[:] = 0.0j
     for i in range(len(row)):
         out += row[i] * exp_k[i]
 
@@ -73,7 +74,7 @@ class ColumnFFT(OperatorBase):
         Number of parallel workers to use for fourier computation
     """
 
-    def __init__(self, shape, line_index=0, n_coils=1, platform='numpy'):
+    def __init__(self, shape, line_index=0, n_coils=1, platform="numpy"):
         """Initilize the 'FFT' class.
 
         Parameters
@@ -99,20 +100,34 @@ class ColumnFFT(OperatorBase):
         self._exp_f = np.zeros(shape[1], dtype=complex)
         self._exp_b = np.zeros(shape[1], dtype=complex)
         self._mask = line_index
-        if platform == 'numba' and n_coils > 1:
-            self._dft = njit(complex128[:, :](complex128[:, :, :], complex128[:]), parallel=True)(
-                numba_njit_dft_multi)
-            self._idft = njit(complex128[:, :, :](complex128[:, :], complex128[:]), parallel=True)(
-                numba_njit_idft_multi)
-        elif platform == 'numba':
-            self._dft = njit(complex128[:](complex128[:, :], complex128[:]), parallel=True)(numba_njit_dft_single)
-            self._idft = njit(complex128[:, :](complex128[:], complex128[:]), parallel=True)(numba_njit_idft_single)
-        elif platform == 'gufunc':
-            self._dft = guvectorize(["complex128[:], complex128[:], complex128[:]"], "(n),(n)->()", nopython=True,
-                                    target='cpu')(numba_dft)
-            self._idft = guvectorize(["complex128, complex128[:], complex128[:]"], "(),(n)->(n)", target='parallel',
-                                     nopython=True)(numba_idft)
-        elif platform == 'numpy':
+        if platform == "numba" and n_coils > 1:
+            self._dft = njit(
+                complex128[:, :](complex128[:, :, :], complex128[:]), parallel=True
+            )(numba_njit_dft_multi)
+            self._idft = njit(
+                complex128[:, :, :](complex128[:, :], complex128[:]), parallel=True
+            )(numba_njit_idft_multi)
+        elif platform == "numba":
+            self._dft = njit(
+                complex128[:](complex128[:, :], complex128[:]), parallel=True
+            )(numba_njit_dft_single)
+            self._idft = njit(
+                complex128[:, :](complex128[:], complex128[:]), parallel=True
+            )(numba_njit_idft_single)
+        elif platform == "gufunc":
+            self._dft = guvectorize(
+                ["complex128[:], complex128[:], complex128[:]"],
+                "(n),(n)->()",
+                nopython=True,
+                target="cpu",
+            )(numba_dft)
+            self._idft = guvectorize(
+                ["complex128, complex128[:], complex128[:]"],
+                "(),(n)->(n)",
+                target="parallel",
+                nopython=True,
+            )(numba_idft)
+        elif platform == "numpy":
             self._dft = np.dot
             self._idft = np.multiply.outer
         else:
@@ -154,12 +169,14 @@ class ColumnFFT(OperatorBase):
         # if self.n_coils == 1:
         #     return self._op(img)
         # return np.array(self._op(img_slice) for img_slice in img)
-        return sp.fft.ifftshift(sp.fft.fft(self._dft(sp.fft.fftshift(img,
-                                                                     axes=[-1, -2]),
-                                                     self._exp_f),
-                                           axis=-1,
-                                           norm='ortho'),
-                                axes=[-1])
+        return sp.fft.ifftshift(
+            sp.fft.fft(
+                self._dft(sp.fft.fftshift(img, axes=[-1, -2]), self._exp_f),
+                axis=-1,
+                norm="ortho",
+            ),
+            axes=[-1],
+        )
 
     def adj_op(self, x):
         """This method calculates inverse masked Fourier transform of a ND
@@ -181,9 +198,50 @@ class ColumnFFT(OperatorBase):
         #     return self._adj_op(x)
         # return np.array(self._op(x_slice) for x_slice in x)
 
-        return sp.fft.fftshift(self._idft(sp.fft.ifft(sp.fft.ifftshift(x,
-                                                                       axes=[-1]),
-                                                      axis=-1,
-                                                      norm="ortho"),
-                                          self._exp_b),
-                               axes=[-1, -2])
+        return sp.fft.fftshift(
+            self._idft(
+                sp.fft.ifft(sp.fft.ifftshift(x, axes=[-1]), axis=-1, norm="ortho"),
+                self._exp_b,
+            ),
+            axes=[-1, -2],
+        )
+
+
+def nc_dft(freqs_f, image):
+    return np.sum(np.multiply.outer(freqs_f, image), axis=(-1, -2))
+
+
+def nc_idft(freqs_b, points, shape):
+    return np.sum(np.multiply.outer(freqs_b, points), axis=0)
+
+
+class NonCartesianDFT(OperatorBase):
+    """Non Cartesian DFT transform."""
+
+    def __init__(self, points, shape, n_coils=1, platform="numpy"):
+        self.shape = shape
+        if n_coils <= 0:
+            n_coils = 1
+        self.n_coils = n_coils
+        self._exp_f = np.zeros(shape[1], dtype=complex)
+        self._exp_b = np.zeros(shape[1], dtype=complex)
+        self._points = points
+        if platform == "numpy":
+            self._dft = nc_dft
+            self._idft = nc_idft
+
+    @property
+    def sampled_points(self):
+        return self._sampled_points
+
+    @sampled_points.setter
+    def sampled_points(self, points):
+        self._points = points
+        self.freqs_f = None
+        self.freqs_b = None # memory expensive to store. -> one image per point in a shot.
+            # other solution, compute on the fly from the atoms of freqs_f.
+    def op(self, img):
+        return self._dft(self.freqs_f, img)
+
+    def adj_op(self, points):
+        return self._idft(self.freqs_b, img)

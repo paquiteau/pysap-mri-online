@@ -100,8 +100,12 @@ class BaseExperience:
 
     @functools.cached_property
     def results(self):
-        with open(self.metrics_file, 'rb') as f:
-            res = pickle.load(f)
+        try:
+            with open(self.metrics_file, 'rb') as f:
+                res = pickle.load(f)
+        except FileNotFoundError:
+            print("simulation not found" + repr(self))
+            return None
         return res
 
     @functools.cached_property

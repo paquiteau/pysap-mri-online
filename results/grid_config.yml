@@ -1,0 +1,77 @@
+# # Multicoil type Offline
+# - data:
+#    - data_idx: 1
+#      monocoil: [False]
+#   problem:
+#    - fourier_type: [0]
+#      regularisation:
+#        - class: 'GroupLASSO'
+#          weights: [2e-6]
+#      linear:
+#        - class: 'WaveletN'
+#          wavelet_name: 'sym8'
+#          nb_scale: [4]
+#   solver:
+#    - algo: 'pogm'
+#      nb_run: 1
+#    - algo: 'fista'
+#      nb_run: 1
+#    - algo: 'condatvu'
+#      nb_run: 1
+#    - algo: 'vanilla'
+#      eta: [1.0, 1.9]
+     
+# Mutlicoil type I 
+- data:
+   - data_idx: 1
+     monocoil: [False]
+  problem:
+#    - fourier_type: [1]
+#      regularisation:
+#        - class: 'IdentityProx'
+#      linear:
+#        - class: 'Identity'
+   - fourier_type: [1]
+     regularisation:
+       - class: 'GroupLASSO'
+         weights: 2e-6
+     linear:
+       - class: 'WaveletN'
+         wavelet_name: 'sym8'
+         nb_scale: [4]
+         
+  solver:
+#    - algo: 'pogm'
+#      nb_run: 1
+#    - algo: 'vanilla'
+#      nb_run: 1
+#      eta: [1.0, 1.9, 0.1]
+   - algo: 'fista'
+     nb_run: 1
+     
+# Mutlicoil Type II
+- data:
+   - data_idx: 1
+     monocoil: [False]
+  problem:
+#    - fourier_type: [2]
+#      regularisation:
+#        - class: 'IdentityProx'
+#      linear:
+#        - class: 'Identity'
+   - fourier_type: [2]
+     regularisation:
+       - class: 'GroupLASSO'
+         weights: [2e-6]
+     linear:
+       - class: 'WaveletN'
+         wavelet_name: 'sym8'
+         nb_scale: [4]
+  solver:
+#    - algo: 'vanilla'
+#      nb_run: [1, 2]
+#      eta: [1.0]
+   - algo: 'momentum'
+     eta: [ 0.0125]
+     nb_run: [1]
+     beta: [1.001]
